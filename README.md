@@ -1,2 +1,2 @@
-﻿# AKMAN Valve site demo
-Static preview for client review. Not for production reuse without agreement.
+﻿# Demo
+Статический превью сайта АКМАН для согласования.

@@ -4,3 +4,8 @@ __pycache__/
 *.pyc
 .vscode/
 .idea/
+
+*.py
+data/
+deploy.zip
+__pycache__/
