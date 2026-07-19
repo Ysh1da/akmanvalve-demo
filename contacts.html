@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Контакты — АКМАН</title>
+  <meta name="description" content="Контакты ООО АКМАН — Москва и Казань. Запрос коммерческого предложения.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=14">
+</head>
+<body data-active="contacts" data-depth="0">
+  <div id="site-header"></div>
+  <main>
+    <section class="page-banner">
+      <div class="container page-banner-center">
+        <h1>Контакты</h1>
+        <p>Офисы в Москве и Казани · запрос коммерческого предложения</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Офисы</span>
+          <h2>Москва и Казань</h2>
+          <p>Свяжитесь с нами по телефону или e-mail — ответим в рабочие часы.</p>
+        </div>
+        <div class="offices-grid">
+          <article class="office">
+            <h3>Москва</h3>
+            <p class="office-addr">129347, г. Москва, ул. Холмогорская, д. 2, корп. 3</p>
+            <p class="office-hours">Пн—Пт 09:00—18:00 · Сб, Вс — выходной</p>
+            <p class="office-links">
+              <a href="tel:+74957903250">+7 495 790-32-50</a>
+              <a href="mailto:mail@akmanvalve.ru">mail@akmanvalve.ru</a>
+            </p>
+          </article>
+          <article class="office">
+            <h3>Казань</h3>
+            <p class="office-addr">420064, г. Казань, ул. Баки Урманче, д. 5, пом. 8001, оф. 2</p>
+            <p class="office-hours">Пн—Пт 09:00—18:00 · Сб, Вс — выходной</p>
+            <p class="office-links">
+              <a href="tel:+74957903250">+7 495 790-32-50</a>
+              <a href="mailto:mail@akmanvalve.ru">mail@akmanvalve.ru</a>
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about-band" id="inquiry">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Заявка</span>
+          <h2>Запросить коммерческое предложение</h2>
+          <p>Заполните форму — откроется письмо с готовым текстом в вашей почте.</p>
+        </div>
+        <div id="inquiry-banner" class="inquiry-banner hidden">
+          <p>Продукция в запросе: <strong id="inquiry-product"></strong></p>
+        </div>
+        <form id="kp-form" class="kp-form" novalidate>
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="kp-name">Имя *</label>
+              <input id="kp-name" name="name" type="text" required autocomplete="name" placeholder="Как к вам обращаться">
+            </div>
+            <div class="form-row">
+              <label for="kp-company">Компания</label>
+              <input id="kp-company" name="company" type="text" autocomplete="organization" placeholder="Название организации">
+            </div>
+            <div class="form-row">
+              <label for="kp-phone">Телефон *</label>
+              <input id="kp-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+7 …">
+            </div>
+            <div class="form-row">
+              <label for="kp-email">E-mail</label>
+              <input id="kp-email" name="email" type="email" autocomplete="email" placeholder="mail@company.ru">
+            </div>
+            <div class="form-row form-span">
+              <label for="kp-product">Интересующая продукция</label>
+              <input id="kp-product" name="product" type="text" placeholder="Например: FLSTV FK60">
+            </div>
+            <div class="form-row form-span">
+              <label for="kp-message">Комментарий</label>
+              <textarea id="kp-message" name="message" rows="4" placeholder="Параметры среды, объект, сроки…"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-blue">Отправить заявку</button>
+            <a class="consult-link" href="tel:+74957903250">Позвонить</a>
+          </div>
+          <p id="kp-status" class="form-status hidden" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">На карте</span>
+          <h2>Как нас найти</h2>
+        </div>
+        <div class="maps-grid">
+          <div class="map-block">
+            <div class="map-head">
+              <h3>Москва</h3>
+              <a class="map-ext" href="https://yandex.ru/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%A5%D0%BE%D0%BB%D0%BC%D0%BE%D0%B3%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F%2C%20%D0%B4.%202%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%203&z=17" target="_blank" rel="noopener">Яндекс.Карты →</a>
+            </div>
+            <p class="map-pin-label">ул. Холмогорская, д. 2, корп. 3</p>
+            <div class="map-frame">
+              <iframe title="Офис АКМАН в Москве"
+                src="https://yandex.ru/map-widget/v1/?ll=37.71925%2C55.88238&z=17&pt=37.71925%2C55.88238%2Cpm2rdm&l=map"
+                allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+          <div class="map-block">
+            <div class="map-head">
+              <h3>Казань</h3>
+              <a class="map-ext" href="https://yandex.ru/maps/?text=%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%8C%2C%20%D1%83%D0%BB.%20%D0%91%D0%B0%D0%BA%D0%B8%20%D0%A3%D1%80%D0%BC%D0%B0%D0%BD%D1%87%D0%B5%2C%20%D0%B4.%205&z=17" target="_blank" rel="noopener">Яндекс.Карты →</a>
+            </div>
+            <p class="map-pin-label">ул. Баки Урманче, д. 5</p>
+            <div class="map-frame">
+              <iframe title="Офис АКМАН в Казани"
+                src="https://yandex.ru/map-widget/v1/?ll=49.17657%2C55.73185&z=17&pt=49.17657%2C55.73185%2Cpm2rdm&l=map"
+                allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/main.js?v=14"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/contacts.js"></script>
+</body>
+</html>

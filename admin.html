@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Админ — АКМАН</title>
+  <meta name="description" content="ООО АКМАН — поставщик технологического оборудования для нефтегазовой и нефтехимической промышленности">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=14">
+</head>
+<body data-active="" data-depth="0">
+  <div id="site-header"></div>
+  <main>
+
+    <section class="page-banner">
+      <div class="container">
+        <h1>Управление продукцией</h1>
+        <p>Скрытый раздел. Доступ только по паролю. Работает онлайн и офлайн.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div id="admin-login" class="admin-wrap">
+          <h2>Вход</h2>
+          <p>Введите пароль администратора</p>
+          <label for="admin-pass">Пароль</label>
+          <input type="password" id="admin-pass" autocomplete="current-password">
+          <div class="admin-actions">
+            <button type="button" class="btn btn-blue" id="admin-login-btn">Войти</button>
+          </div>
+          <div id="admin-login-msg" class="admin-msg hidden"></div>
+        </div>
+
+        <div id="admin-panel" class="admin-wrap hidden">
+          <h2>Добавить продукцию</h2>
+          <p>Данные сохраняются в браузере (localStorage) и доступны офлайн. Можно выгрузить JSON для публикации на сервер.</p>
+          <form id="product-form">
+            <label for="p-title">Название *</label>
+            <input id="p-title" required>
+
+            <label for="p-category">Категория</label>
+            <select id="p-category">
+              <option value="cami">Средства измерений</option>
+              <option value="soacv">Арматура трубопроводная</option>
+              <option value="icp">ВКУ</option>
+              <option value="other">Другое</option>
+            </select>
+
+            <label for="p-subtitle">Краткое описание</label>
+            <textarea id="p-subtitle"></textarea>
+
+            <label for="p-specs">Характеристики (каждая строка: Название | Значение)</label>
+            <textarea id="p-specs" placeholder="Диаметр, мм | 15 ~ 150"></textarea>
+
+            <label for="p-image">Изображение (файл)</label>
+            <input type="file" id="p-image" accept="image/*">
+
+            <label for="p-image-url">или путь/URL изображения</label>
+            <input id="p-image-url" placeholder="assets/images/...">
+
+            <div class="admin-actions">
+              <button type="submit" class="btn btn-blue">Сохранить</button>
+              <button type="button" class="btn btn-outline" style="color:var(--blue-800);border-color:var(--blue-800)" id="export-btn">Скачать JSON</button>
+              <button type="button" class="btn btn-outline" style="color:var(--blue-800);border-color:var(--blue-800)" id="import-btn">Импорт JSON</button>
+              <input type="file" id="import-file" accept="application/json" class="hidden">
+              <button type="button" class="btn btn-outline" style="color:#8a3030;border-color:#8a3030" id="logout-btn">Выйти</button>
+            </div>
+          </form>
+          <div id="admin-msg" class="admin-msg hidden"></div>
+          <h3 style="margin-top:2rem">Добавленные позиции</h3>
+          <div id="admin-list"></div>
+        </div>
+      </div>
+    </section>
+    <script src="js/admin.js"></script>
+
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/main.js?v=14"></script>
+  <script src="js/catalog.js"></script>
+</body>
+</html>
