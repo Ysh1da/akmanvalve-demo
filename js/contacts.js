@@ -1,6 +1,5 @@
-/* Contacts: ТКП form — AJAX + modal */
+/* Contacts: ТКП form — classic POST (attachments) + modal */
 (function () {
-  const ENDPOINT = "https://formsubmit.co/ajax/yyyykira@gmail.com";
   const params = new URLSearchParams(location.search);
   const productParam = params.get("product");
   const productInput = document.getElementById("kp-product");
@@ -11,6 +10,7 @@
   const category = document.getElementById("kp-category");
   const dl = document.getElementById("questionnaire-download");
   const hint = document.getElementById("questionnaire-hint");
+  const nextInput = document.getElementById("kp-next");
   const filesInput = document.getElementById("kp-files");
   const submitBtn = form && form.querySelector('button[type="submit"]');
   const t = (k) => (window.AkmanI18n ? window.AkmanI18n.t(k) : k);
@@ -80,6 +80,11 @@
     document.body.classList.remove("modal-open");
   }
 
+  if (nextInput) {
+    const base = location.href.split("#")[0].split("?")[0];
+    nextInput.value = base + "?sent=1#inquiry";
+  }
+
   if (productParam) {
     if (productInput) productInput.value = productParam;
     if (banner && label) {
@@ -90,6 +95,14 @@
 
   if (params.get("sent") === "1") {
     openModal("success", t("sent_title"), t("sent_ok"));
+    if (status) {
+      status.classList.remove("hidden");
+      status.textContent = t("sent_ok");
+    }
+    if (window.history && window.history.replaceState) {
+      const clean = location.pathname + location.hash;
+      window.history.replaceState({}, "", clean || location.pathname);
+    }
   }
 
   function updateQuestionnaire() {
@@ -125,10 +138,16 @@
 
   if (!form) return;
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  // FormSubmit AJAX drops file attachments — use classic multipart POST.
+  form.addEventListener("submit", (e) => {
+    if (location.protocol === "file:") {
+      e.preventDefault();
+      openModal("error", t("error_title"), t("error_local"));
+      return;
+    }
 
     if (filesInput && (!filesInput.files || !filesInput.files.length)) {
+      e.preventDefault();
       openModal("error", t("error_title"), t("attach_needed"));
       if (status) {
         status.classList.remove("hidden");
@@ -137,8 +156,13 @@
       return;
     }
 
-    if (location.protocol === "file:") {
-      openModal("error", t("error_title"), t("error_local"));
+    let total = 0;
+    Array.from(filesInput.files).forEach((f) => {
+      total += f.size || 0;
+    });
+    if (total > 10 * 1024 * 1024) {
+      e.preventDefault();
+      openModal("error", t("error_title"), t("error_filesize"));
       return;
     }
 
@@ -146,48 +170,6 @@
     if (status) {
       status.classList.remove("hidden");
       status.textContent = t("sending");
-    }
-
-    const data = new FormData(form);
-    data.delete("_next");
-
-    try {
-      const res = await fetch(ENDPOINT, {
-        method: "POST",
-        body: data,
-        headers: { Accept: "application/json" },
-      });
-
-      let payload = null;
-      try {
-        payload = await res.json();
-      } catch (_) {
-        payload = null;
-      }
-
-      if (!res.ok) {
-        const msg =
-          (payload && (payload.message || payload.error)) ||
-          t("error_send");
-        throw new Error(msg);
-      }
-
-      form.reset();
-      updateQuestionnaire();
-      if (status) {
-        status.classList.add("hidden");
-        status.textContent = "";
-      }
-      openModal("success", t("sent_title"), t("sent_ok"));
-    } catch (err) {
-      const msg = (err && err.message) || t("error_send");
-      if (status) {
-        status.classList.remove("hidden");
-        status.textContent = msg;
-      }
-      openModal("error", t("error_title"), msg);
-    } finally {
-      if (submitBtn) submitBtn.disabled = false;
     }
   });
 })();
