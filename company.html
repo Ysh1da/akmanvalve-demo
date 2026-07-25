@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>О компании — АКМАН</title>
-  <meta name="description" content="ООО АКМАН — поставщик технологического оборудования для нефтегазовой и нефтехимической промышленности">
+  <meta name="description" content="ООО АКМАН — поставщик технологического оборудования для нефтегазохимической отрасли">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=14">
+  <link rel="stylesheet" href="css/styles.css?v=20">
 </head>
 <body data-active="company" data-depth="0">
   <div id="site-header"></div>
@@ -16,30 +16,32 @@
 
     <section class="page-banner">
       <div class="container">
-        <h1>О компании</h1>
-        <p>Поставщик технологического оборудования для нефтегазовой и нефтехимической промышленности</p>
+        <h1 data-i18n="company_h1">О компании</h1>
+        <p data-i18n="company_banner">Технологическое оборудование для нефтегазохимической отрасли</p>
       </div>
     </section>
     <section class="section">
       <div class="container about-split">
         <div class="reveal">
-          <h2>ООО «АКМАН»</h2>
-          <p>ООО &quot;АКМАН&quot; — поставщик технологического оборудования для нефтегазовой и нефтехимической промышленности. Компания является официальным дистрибьютором зарубежных производителей технологического оборудования на территории РФ и стран Таможенного Союза.</p>
-          <p>Мы поставляем средства измерений, запорно-регулирующую арматуру и внутренние контактные устройства колонного оборудования.</p>
+          <h2 data-i18n="about_h2">ООО «АКМАН»</h2>
+          <p data-i18n="company_p1">ООО «АКМАН» поставляет технологическое оборудование для нефтегазохимической отрасли: средства измерений, запорно-регулирующую арматуру и внутренние контактные устройства колонного оборудования.</p>
+          <p data-i18n="company_p2">Мы работаем как официальный дистрибьютор зарубежных производителей на территории РФ и стран Таможенного союза. К поставкам сопровождаем разрешительную документацию — декларации, сертификаты и свидетельства об утверждении типа СИ.</p>
+          <p data-i18n="company_p3">Офисы в Москве и Казани помогают вести проекты по всей стране: от подбора оборудования и запроса ТКП до сопровождения поставки.</p>
           <div class="hero-actions" style="margin-top:1.5rem">
-            <a class="btn btn-blue" href="products.html">Продукция</a>
-            <a class="btn btn-outline" style="color:var(--blue-800);border-color:var(--blue-800)" href="contacts.html">Контакты</a>
+            <a class="btn btn-blue" href="products.html" data-i18n="cta_products">Наши продукты</a>
+            <a class="btn btn-outline" style="color:var(--blue-800);border-color:var(--blue-800)" href="contacts.html#inquiry" data-i18n="cta_tkp">Запросить ТКП</a>
           </div>
         </div>
-        <div class="reveal">
-          <img src="assets/images/6274efb1b0cd.png" alt="АКМАН">
+        <div class="reveal about-photo">
+          <img src="assets/images/about-equipment.jpg" alt="Клапаны, расходомеры и приборы КИП АКМАН">
         </div>
       </div>
     </section>
 
   </main>
   <div id="site-footer"></div>
-  <script src="js/main.js?v=14"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js?v=20"></script>
   <script src="js/catalog.js"></script>
 </body>
 </html>

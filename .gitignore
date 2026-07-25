@@ -6,6 +6,5 @@ __pycache__/
 .idea/
 
 *.py
-data/
 deploy.zip
 __pycache__/

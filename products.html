@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Продукция — АКМАН</title>
-  <meta name="description" content="ООО АКМАН — поставщик технологического оборудования для нефтегазовой и нефтехимической промышленности">
+  <title>Наши продукты — АКМАН</title>
+  <meta name="description" content="ООО АКМАН — поставщик технологического оборудования для нефтегазохимической отрасли">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=14">
+  <link rel="stylesheet" href="css/styles.css?v=20">
 </head>
-<body data-active="products" data-depth="0">
+<body data-active="products" data-depth="0" data-catalog-category="products-index">
   <div id="site-header"></div>
   <main>
 
     <section class="page-banner">
       <div class="container">
-        <h1>Продукция</h1>
-        <p>Три основных направления поставок оборудования</p>
+        <h1 data-i18n="products_h1">Наши продукты</h1>
+        <p data-i18n="products_banner">Основные направления поставляемого оборудования</p>
       </div>
     </section>
     <section class="section">
@@ -26,22 +26,22 @@
         <a class="product-card reveal" href="products/instruments.html">
           <div class="product-card-media"><img src="assets/images/b182b10a204b.png" alt="Средства измерений"></div>
           <div class="product-card-body">
-            <h3>Средства измерений</h3>
-            <span class="link-more">Перейти</span>
+            <h3 data-i18n="products_si">Средства измерений</h3>
+            <span class="link-more" data-i18n="go">Перейти</span>
           </div>
         </a>
         <a class="product-card reveal" href="products/valves.html">
           <div class="product-card-media"><img src="assets/images/1071a158f6d3.png" alt="Арматура трубопроводная"></div>
           <div class="product-card-body">
-            <h3>Арматура трубопроводная</h3>
-            <span class="link-more">Перейти</span>
+            <h3 data-i18n="products_valves">Арматура трубопроводная</h3>
+            <span class="link-more" data-i18n="go">Перейти</span>
           </div>
         </a>
         <a class="product-card reveal" href="products/internals.html">
           <div class="product-card-media"><img src="assets/images/182a24ce0eb3.png" alt="Внутренние контактные устройства (ВКУ)"></div>
           <div class="product-card-body">
-            <h3>Внутренние контактные устройства (ВКУ)</h3>
-            <span class="link-more">Перейти</span>
+            <h3 data-i18n="products_vku">Внутренние контактные устройства (ВКУ)</h3>
+            <span class="link-more" data-i18n="go">Перейти</span>
           </div>
         </a>
       </div>
@@ -53,12 +53,12 @@
     <section class="consult-band product-cta">
       <div class="container consult-inner">
         <div class="consult-text">
-          <span class="eyebrow">Консультация</span>
-          <h2>Подберём оборудование под вашу задачу</h2>
-          <p>Опишите параметры — подготовим коммерческое предложение.</p>
+          <span class="eyebrow" data-i18n="consult">Консультация</span>
+          <h2 data-i18n="consult_task_h2">Подберём оборудование под вашу задачу</h2>
+          <p data-i18n="consult_task_p">Опишите параметры — подготовим технико-коммерческое предложение.</p>
         </div>
         <div class="consult-actions">
-          <a class="btn btn-primary" href="contacts.html#inquiry">Оставить заявку</a>
+          <a class="btn btn-primary" href="contacts.html#inquiry" data-i18n="cta_tkp">Запросить ТКП</a>
           <a class="consult-link" href="tel:+74957903250">+7 495 790-32-50</a>
         </div>
       </div>
@@ -66,7 +66,8 @@
 
   </main>
   <div id="site-footer"></div>
-  <script src="js/main.js?v=14"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js?v=20"></script>
   <script src="js/catalog.js"></script>
 </body>
 </html>

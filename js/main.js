@@ -3,105 +3,131 @@
   const depth = Number(document.body.dataset.depth || 0);
   const prefix = "../".repeat(depth);
   const active = document.body.dataset.active || "";
+  const I = window.AkmanI18n;
+  const t = (k) => (I ? I.t(k) : k);
 
-  function link(href, label, key) {
+  function link(href, labelKey, key) {
     const isActive = active === key ? " active" : "";
-    return `<a class="${isActive}" href="${prefix}${href}">${label}</a>`;
+    return `<a class="${isActive}" href="${prefix}${href}" data-i18n="${labelKey}">${t(labelKey)}</a>`;
   }
 
-  const header = `
+  function buildHeader() {
+    return `
   <header class="site-header">
     <div class="container header-inner">
-      <a class="logo" href="${prefix}index.html" aria-label="АКМАН — на главную">
-        <img src="${prefix}assets/images/a9b33a8775c0.png" alt="AKMAN">
+      <a class="logo" href="${prefix}index.html" data-i18n="home_aria" data-i18n-attr="aria-label" aria-label="${t("home_aria")}">
+        <img src="${prefix}assets/images/logo-akman.png" alt="АКМАН">
       </a>
       <div class="header-right">
+        <button type="button" class="lang-toggle" aria-label="${t("lang_aria")}">${t("lang_btn")}</button>
         <a class="header-phone-mobile" href="tel:+74957903250">+7 495 790-32-50</a>
-        <button class="burger" type="button" aria-label="Меню" id="burger">
+        <button class="burger" type="button" data-i18n="nav_menu" data-i18n-attr="aria-label" aria-label="${t("nav_menu")}" id="burger">
           <span></span><span></span><span></span>
         </button>
       </div>
       <nav class="nav" id="nav">
-        ${link("company.html", "О компании", "company")}
+        ${link("company.html", "nav_company", "company")}
         <div class="nav-dropdown">
-          ${link("products.html", "Продукты", "products")}
+          ${link("products.html", "nav_products", "products")}
           <div class="nav-dropdown-menu">
-            <a href="${prefix}products/instruments.html">Средства измерений</a>
-            <a href="${prefix}products/valves.html">Арматура трубопроводная</a>
-            <a href="${prefix}products/internals.html">ВКУ</a>
+            <a href="${prefix}products/instruments.html" data-i18n="nav_instruments">${t("nav_instruments")}</a>
+            <a href="${prefix}products/valves.html" data-i18n="nav_valves">${t("nav_valves")}</a>
+            <a href="${prefix}products/internals.html" data-i18n="nav_internals">${t("nav_internals")}</a>
           </div>
         </div>
-        ${link("documents.html", "Документы", "documents")}
-        ${link("contacts.html", "Контакты", "contacts")}
+        ${link("documents.html", "nav_documents", "documents")}
+        ${link("contacts.html", "nav_contacts", "contacts")}
       </nav>
       <div class="header-contacts">
+        <button type="button" class="lang-toggle" aria-label="${t("lang_aria")}">${t("lang_btn")}</button>
         <a href="tel:+74957903250">+7 495 790-32-50</a>
-        <span>Пн—Пт 09:00—18:00</span>
       </div>
     </div>
   </header>`;
+  }
 
-  const footer = `
+  function buildFooter() {
+    return `
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-brand">AKMAN</div>
-          <p>Поставщик технологического оборудования для нефтегазовой и нефтехимической промышленности.</p>
+          <div class="footer-brand">
+            <img src="${prefix}assets/images/logo-akman-on-dark.png" alt="AKMAN">
+          </div>
+          <p data-i18n="footer_about">${t("footer_about")}</p>
         </div>
         <div>
-          <h4>Разделы</h4>
-          <a href="${prefix}company.html">О компании</a>
-          <a href="${prefix}products.html">Продукция</a>
-          <a href="${prefix}documents.html">Документы</a>
-          <a href="${prefix}contacts.html">Контакты</a>
+          <h4 data-i18n="footer_sections">${t("footer_sections")}</h4>
+          <a href="${prefix}company.html" data-i18n="nav_company">${t("nav_company")}</a>
+          <a href="${prefix}products.html" data-i18n="nav_products">${t("nav_products")}</a>
+          <a href="${prefix}documents.html" data-i18n="nav_documents">${t("nav_documents")}</a>
+          <a href="${prefix}contacts.html" data-i18n="nav_contacts">${t("nav_contacts")}</a>
         </div>
         <div>
-          <h4>Контакты</h4>
+          <h4 data-i18n="footer_contacts">${t("footer_contacts")}</h4>
           <a href="tel:+74957903250">+7 495 790-32-50</a>
           <a href="mailto:mail@akmanvalve.ru">mail@akmanvalve.ru</a>
-          <a href="${prefix}contacts.html">Москва / Казань</a>
+          <a href="${prefix}contacts.html" data-i18n="footer_cities">${t("footer_cities")}</a>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2017–2026 ООО «АКМАН», официальный сайт</span>
+        <span data-i18n="footer_copy">${t("footer_copy")}</span>
         <span>mail@akmanvalve.ru</span>
       </div>
     </div>
   </footer>`;
+  }
 
-  const headerEl = document.getElementById("site-header");
-  const footerEl = document.getElementById("site-footer");
-  if (headerEl) headerEl.outerHTML = header;
-  if (footerEl) footerEl.outerHTML = footer;
+  function mount() {
+    const headerEl = document.getElementById("site-header");
+    const footerEl = document.getElementById("site-footer");
+    if (headerEl) headerEl.outerHTML = buildHeader();
+    if (footerEl) footerEl.outerHTML = buildFooter();
 
-  const burger = document.getElementById("burger");
-  const nav = document.getElementById("nav");
-  if (burger && nav) {
-    if (!nav.querySelector(".nav-mobile-phone")) {
-      const phone = document.createElement("a");
-      phone.className = "nav-mobile-phone";
-      phone.href = "tel:+74957903250";
-      phone.textContent = "+7 495 790-32-50";
-      nav.appendChild(phone);
+    document.querySelectorAll(".lang-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (window.AkmanI18n) window.AkmanI18n.toggle();
+      });
+    });
+
+    const burger = document.getElementById("burger");
+    const nav = document.getElementById("nav");
+    if (burger && nav) {
+      if (!nav.querySelector(".nav-mobile-phone")) {
+        const phone = document.createElement("a");
+        phone.className = "nav-mobile-phone";
+        phone.href = "tel:+74957903250";
+        phone.textContent = "+7 495 790-32-50";
+        nav.appendChild(phone);
+      }
+
+      const setOpen = (open) => {
+        nav.classList.toggle("open", open);
+        burger.setAttribute("aria-expanded", open ? "true" : "false");
+        document.body.classList.toggle("nav-open", open);
+      };
+
+      burger.setAttribute("aria-expanded", "false");
+      burger.setAttribute("aria-controls", "nav");
+      burger.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+      nav.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => setOpen(false));
+      });
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 960) setOpen(false);
+      });
     }
 
-    const setOpen = (open) => {
-      nav.classList.toggle("open", open);
-      burger.setAttribute("aria-expanded", open ? "true" : "false");
-      document.body.classList.toggle("nav-open", open);
-    };
-
-    burger.setAttribute("aria-expanded", "false");
-    burger.setAttribute("aria-controls", "nav");
-    burger.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
-    nav.querySelectorAll("a").forEach((a) => {
-      a.addEventListener("click", () => setOpen(false));
-    });
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 960) setOpen(false);
-    });
+    if (window.AkmanI18n) window.AkmanI18n.apply();
   }
+
+  mount();
+
+  window.addEventListener("akman:lang", () => {
+    // re-apply only; header already has data-i18n
+    if (window.AkmanI18n) window.AkmanI18n.apply();
+  });
 
   const io = new IntersectionObserver(
     (entries) => {

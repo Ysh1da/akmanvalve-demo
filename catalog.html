@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Каталог — АКМАН</title>
+  <meta name="description" content="Каталог оборудования ООО АКМАН">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=20">
+</head>
+<body data-active="products" data-depth="0">
+  <div id="site-header"></div>
+  <main>
+    <section class="page-banner">
+      <div class="container">
+        <h1 id="cat-title">Каталог</h1>
+        <p id="cat-sub"></p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <nav class="breadcrumb" id="cat-crumb"></nav>
+        <div class="grid-3" id="cat-grid"></div>
+        <p id="cat-empty" class="hidden">В этом разделе пока нет позиций.</p>
+      </div>
+    </section>
+    <section class="consult-band product-cta">
+      <div class="container consult-inner">
+        <div class="consult-text">
+          <span class="eyebrow">Консультация</span>
+          <h2>Подберём оборудование под вашу задачу</h2>
+          <p>Опишите параметры — подготовим технико-коммерческое предложение.</p>
+        </div>
+        <div class="consult-actions">
+          <a class="btn btn-primary" href="contacts.html#inquiry">Запросить ТКП</a>
+          <a class="consult-link" href="tel:+74957903250">+7 495 790-32-50</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js?v=20"></script>
+  <script src="js/catalog.js"></script>
+  <script>
+    (async function () {
+      const id = new URLSearchParams(location.search).get("id");
+      const titleEl = document.getElementById("cat-title");
+      const subEl = document.getElementById("cat-sub");
+      const crumb = document.getElementById("cat-crumb");
+      const grid = document.getElementById("cat-grid");
+      const empty = document.getElementById("cat-empty");
+
+      function esc(s) {
+        return String(s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function imgSrc(src) {
+        if (!src) return "assets/images/b182b10a204b.png";
+        if (/^(data:|https?:|blob:)/i.test(src)) return src;
+        return src;
+      }
+
+      function hrefFor(node) {
+        if (node.builtin && node.href) return node.href;
+        if (node.kind === "folder") return "catalog.html?id=" + encodeURIComponent(node.id);
+        return "custom-product.html?id=" + encodeURIComponent(node.id);
+      }
+
+      if (!id || !window.AkmanCatalog) {
+        titleEl.textContent = "Раздел не найден";
+        return;
+      }
+
+      const catalog = await AkmanCatalog.getCatalog();
+      const section = AkmanCatalog.getSection(id, catalog);
+      const folder = AkmanCatalog.getNode(id, catalog);
+      const entity = section || folder;
+      if (!entity) {
+        titleEl.textContent = "Раздел не найден";
+        return;
+      }
+
+      titleEl.textContent = entity.title;
+      subEl.textContent = entity.subtitle || "";
+      document.title = entity.title + " — АКМАН";
+
+      if (section) {
+        crumb.innerHTML = `<a href="index.html">Главная</a> <span>/</span> <a href="products.html">Наши продукты</a> <span>/</span> <strong>${esc(section.title)}</strong>`;
+      } else {
+        const parent = AkmanCatalog.getSection(folder.parentId, catalog) || AkmanCatalog.getNode(folder.parentId, catalog);
+        const parentLink = parent
+          ? parent.page
+            ? parent.page
+            : "catalog.html?id=" + encodeURIComponent(parent.id)
+          : "products.html";
+        crumb.innerHTML = `<a href="index.html">Главная</a> <span>/</span> <a href="products.html">Наши продукты</a> <span>/</span> ${
+          parent ? `<a href="${parentLink}">${esc(parent.title)}</a> <span>/</span>` : ""
+        } <strong>${esc(folder.title)}</strong>`;
+      }
+
+      const kids = AkmanCatalog.childrenOf(id, catalog);
+      if (!kids.length) {
+        empty.classList.remove("hidden");
+        return;
+      }
+
+      grid.innerHTML = kids
+        .map((node) => {
+          return `<a class="product-card reveal visible" href="${hrefFor(node)}">
+            <div class="product-card-media"><img src="${imgSrc(node.image)}" alt="${esc(node.title)}"></div>
+            <div class="product-card-body">
+              <h3>${esc(node.title)}</h3>
+              ${node.subtitle ? `<p>${esc(node.subtitle)}</p>` : ""}
+              <span class="link-more">${node.kind === "folder" ? "Открыть" : "Подробнее"}</span>
+            </div>
+          </a>`;
+        })
+        .join("");
+    })();
+  </script>
+</body>
+</html>
