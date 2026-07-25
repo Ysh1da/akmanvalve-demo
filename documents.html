@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20">
+  <link rel="stylesheet" href="css/styles.css?v=24">
 </head>
 <body data-active="documents" data-depth="0">
   <div id="site-header"></div>
@@ -21,12 +21,12 @@
     </section>
     <section class="section">
       <div class="container">
-        <div class="doc-tabs" role="tablist" aria-label="Разделы документов">
-<button type="button" class="doc-tab" role="tab" data-doc-tab="declarations" aria-selected="false">Декларации</button><button type="button" class="doc-tab" role="tab" data-doc-tab="certificates" aria-selected="false">Сертификаты</button><button type="button" class="doc-tab" role="tab" data-doc-tab="type-certs" aria-selected="false">Тип продукции</button><button type="button" class="doc-tab" role="tab" data-doc-tab="ruschlor" aria-selected="false">РусХлорСерт</button><button type="button" class="doc-tab" role="tab" data-doc-tab="type-si" aria-selected="false">Тип СИ</button>
+        <div class="doc-tabs" role="tablist" aria-label="Разделы документов" data-i18n="docs_tablist" data-i18n-attr="aria-label">
+<button type="button" class="doc-tab" role="tab" data-doc-tab="declarations" aria-selected="false" data-i18n="docs_tab_decl">Декларации</button><button type="button" class="doc-tab" role="tab" data-doc-tab="certificates" aria-selected="false" data-i18n="docs_tab_cert">Сертификаты</button><button type="button" class="doc-tab" role="tab" data-doc-tab="type-certs" aria-selected="false" data-i18n="docs_tab_type">Тип продукции</button><button type="button" class="doc-tab" role="tab" data-doc-tab="ruschlor" aria-selected="false" data-i18n="docs_tab_rus">РусХлорСерт</button><button type="button" class="doc-tab" role="tab" data-doc-tab="type-si" aria-selected="false" data-i18n="docs_tab_si">Тип СИ</button>
         </div>
 
         <div class="doc-panel" data-doc-panel="declarations" role="tabpanel" hidden>
-          <h3 class="doc-panel-title">Декларации о соответствии</h3>
+          <h3 class="doc-panel-title" data-i18n="docs_panel_decl">Декларации о соответствии</h3>
           <div class="doc-grid">
 
           <button type="button" class="doc-card" data-lightbox="assets/images/doc-1578b21e5cc6.jpeg" data-title="Расходомеры-счетчики вихревые FLSTV — ТР ТС 020/2011">
@@ -80,7 +80,7 @@
           </div>
         </div>
         <div class="doc-panel" data-doc-panel="certificates" role="tabpanel" hidden>
-          <h3 class="doc-panel-title">Сертификаты соответствия</h3>
+          <h3 class="doc-panel-title" data-i18n="docs_panel_cert">Сертификаты соответствия</h3>
           <div class="doc-grid">
 
           <button type="button" class="doc-card" data-lightbox="assets/images/doc-1f58ba7dde6a.jpeg" data-title="Расходомеры-счетчики вихревые FLSTV — ТР ТС 012/2011">
@@ -158,7 +158,7 @@
           </div>
         </div>
         <div class="doc-panel" data-doc-panel="type-certs" role="tabpanel" hidden>
-          <h3 class="doc-panel-title">Сертификаты на тип продукции</h3>
+          <h3 class="doc-panel-title" data-i18n="docs_panel_type">Сертификаты на тип продукции</h3>
           <div class="doc-grid">
 
           <button type="button" class="doc-card" data-lightbox="assets/images/doc-b4db5cc1de1a.jpeg" data-title="Клапаны регулирующие — ТР ТС 010/2011">
@@ -236,7 +236,7 @@
           </div>
         </div>
         <div class="doc-panel" data-doc-panel="ruschlor" role="tabpanel" hidden>
-          <h3 class="doc-panel-title">Сертификаты РусХлорСерт</h3>
+          <h3 class="doc-panel-title" data-i18n="docs_panel_rus">Сертификаты РусХлорСерт</h3>
           <div class="doc-grid">
 
           <button type="button" class="doc-card" data-lightbox="assets/images/doc-4767bed29594.png" data-title="Клапаны регулирующие">
@@ -250,7 +250,7 @@
           </div>
         </div>
         <div class="doc-panel" data-doc-panel="type-si" role="tabpanel" hidden>
-          <h3 class="doc-panel-title">Свидетельства об утверждении типа СИ</h3>
+          <h3 class="doc-panel-title" data-i18n="docs_panel_si">Свидетельства об утверждении типа СИ</h3>
           <div class="doc-grid">
 
           <button type="button" class="doc-card" data-lightbox="assets/images/doc-4a52099c4c15.jpeg" data-title="Расходомеры-счетчики вихревые FLSTV">
@@ -266,13 +266,13 @@
       </div>
     </section>
   </main>
-  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Просмотр документа">
-    <button type="button" class="lightbox-close" aria-label="Закрыть">&times;</button>
-    <div class="lightbox-toolbar" role="toolbar" aria-label="Масштаб">
-      <button type="button" data-zoom="out" aria-label="Отдалить">−</button>
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Просмотр документа" data-i18n="lb_view" data-i18n-attr="aria-label">
+    <button type="button" class="lightbox-close" aria-label="Закрыть" data-i18n="lb_close" data-i18n-attr="aria-label">&times;</button>
+    <div class="lightbox-toolbar" role="toolbar" aria-label="Масштаб" data-i18n="lb_zoom" data-i18n-attr="aria-label">
+      <button type="button" data-zoom="out" aria-label="Отдалить" data-i18n="lb_out" data-i18n-attr="aria-label">−</button>
       <span class="lightbox-zoom-label">100%</span>
-      <button type="button" data-zoom="in" aria-label="Приблизить">+</button>
-      <button type="button" data-zoom="reset" aria-label="Сбросить масштаб">Сброс</button>
+      <button type="button" data-zoom="in" aria-label="Приблизить" data-i18n="lb_in" data-i18n-attr="aria-label">+</button>
+      <button type="button" data-zoom="reset" aria-label="Сбросить масштаб" data-i18n="lb_reset_aria" data-i18n-attr="aria-label"><span data-i18n="lb_reset">Сброс</span></button>
     </div>
     <div class="lightbox-stage">
       <img class="lightbox-img" src="" alt="">
@@ -282,7 +282,7 @@
   </div>
   <div id="site-footer"></div>
   <script src="js/i18n.js"></script>
-  <script src="js/main.js?v=20"></script>
+  <script src="js/main.js?v=23"></script>
   <script src="js/catalog.js"></script>
   <script src="js/lightbox.js"></script>
   <script src="js/docs-tabs.js"></script>

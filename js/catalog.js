@@ -362,13 +362,31 @@
   function cardHtml(node, prefix) {
     const href = nodeHref(node, prefix);
     const img = resolveImage(node.image, prefix);
+    const L = window.AkmanI18n ? window.AkmanI18n.getLang() : "ru";
+    const phrases = window.AkmanPhrases || {};
+    const titleRaw = node.title || "";
+    const title =
+      L === "en" ? node.titleEn || phrases[titleRaw] || titleRaw : titleRaw;
+    const subtitleRaw = node.subtitle || "";
+    const subtitle =
+      L === "en"
+        ? node.subtitleEn || phrases[subtitleRaw] || subtitleRaw
+        : subtitleRaw;
+    const more =
+      node.kind === "folder"
+        ? L === "en"
+          ? phrases["Открыть"] || "Open"
+          : "Открыть"
+        : L === "en"
+          ? phrases["Подробнее"] || "Details"
+          : "Подробнее";
     return `
       <a class="product-card reveal visible" href="${href}">
-        <div class="product-card-media"><img src="${img}" alt="${escapeHtml(node.title)}"></div>
+        <div class="product-card-media"><img src="${img}" alt="${escapeHtml(title)}"></div>
         <div class="product-card-body">
-          <h3>${escapeHtml(node.title)}</h3>
-          ${node.subtitle ? `<p>${escapeHtml(node.subtitle)}</p>` : ""}
-          <span class="link-more">${node.kind === "folder" ? "Открыть" : "Подробнее"}</span>
+          <h3>${escapeHtml(title)}</h3>
+          ${subtitle ? `<p>${escapeHtml(subtitle)}</p>` : ""}
+          <span class="link-more">${more}</span>
         </div>
       </a>`;
   }
@@ -452,6 +470,14 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    renderCatalog().catch(() => {});
+    renderCatalog()
+      .then(() => {
+        if (window.AkmanI18n) window.AkmanI18n.apply();
+      })
+      .catch(() => {});
+  });
+
+  window.addEventListener("akman:lang", () => {
+    if (window.AkmanI18n) window.AkmanI18n.apply();
   });
 })();

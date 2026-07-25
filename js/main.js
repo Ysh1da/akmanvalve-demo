@@ -19,6 +19,15 @@
         <img src="${prefix}assets/images/logo-akman.png" alt="АКМАН">
       </a>
       <div class="header-right">
+        <div class="header-search" id="site-search-mobile">
+          <button type="button" class="search-toggle" aria-label="${t("search_aria")}" aria-expanded="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="search-panel hidden">
+            <input class="search-input" type="search" placeholder="${t("search_ph")}" autocomplete="off">
+            <div class="search-results"></div>
+          </div>
+        </div>
         <button type="button" class="lang-toggle" aria-label="${t("lang_aria")}">${t("lang_btn")}</button>
         <a class="header-phone-mobile" href="tel:+74957903250">+7 495 790-32-50</a>
         <button class="burger" type="button" data-i18n="nav_menu" data-i18n-attr="aria-label" aria-label="${t("nav_menu")}" id="burger">
@@ -39,6 +48,15 @@
         ${link("contacts.html", "nav_contacts", "contacts")}
       </nav>
       <div class="header-contacts">
+        <div class="header-search" id="site-search">
+          <button type="button" class="search-toggle" aria-label="${t("search_aria")}" aria-expanded="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="search-panel hidden">
+            <input class="search-input" type="search" placeholder="${t("search_ph")}" autocomplete="off">
+            <div class="search-results"></div>
+          </div>
+        </div>
         <button type="button" class="lang-toggle" aria-label="${t("lang_aria")}">${t("lang_btn")}</button>
         <a href="tel:+74957903250">+7 495 790-32-50</a>
       </div>
@@ -77,6 +95,21 @@
       </div>
     </div>
   </footer>`;
+  }
+
+  function loadExtraScripts() {
+    const files = ["js/phrases.js?v=23", "js/search.js?v=23"];
+    files.forEach((src) => {
+      const name = src.split("?")[0];
+      if ([...document.scripts].some((s) => (s.src || "").includes(name))) return;
+      const el = document.createElement("script");
+      el.src = prefix + src;
+      el.onload = () => {
+        if (name.endsWith("phrases.js") && window.AkmanI18n) window.AkmanI18n.apply();
+        if (name.endsWith("search.js") && window.AkmanSearch) window.AkmanSearch.init();
+      };
+      document.body.appendChild(el);
+    });
   }
 
   function mount() {
@@ -120,6 +153,7 @@
     }
 
     if (window.AkmanI18n) window.AkmanI18n.apply();
+    loadExtraScripts();
   }
 
   mount();

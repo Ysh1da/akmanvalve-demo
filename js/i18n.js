@@ -119,6 +119,32 @@
       open: "Открыть",
       consult_task_h2: "Подберём оборудование под вашу задачу",
       consult_task_p: "Опишите параметры — подготовим технико-коммерческое предложение.",
+      search_aria: "Поиск по сайту",
+      search_ph: "Поиск по сайту…",
+      search_empty: "Ничего не найдено",
+      search_hint: "Начните вводить название",
+      docs_tablist: "Разделы документов",
+      docs_tab_decl: "Декларации",
+      docs_tab_cert: "Сертификаты",
+      docs_tab_type: "Тип продукции",
+      docs_tab_rus: "РусХлорСерт",
+      docs_tab_si: "Тип СИ",
+      docs_panel_decl: "Декларации о соответствии",
+      docs_panel_cert: "Сертификаты соответствия",
+      docs_panel_type: "Сертификаты на тип продукции",
+      docs_panel_rus: "Сертификаты РусХлорСерт",
+      docs_panel_si: "Свидетельства об утверждении типа СИ",
+      lb_view: "Просмотр документа",
+      lb_close: "Закрыть",
+      lb_zoom: "Масштаб",
+      lb_out: "Отдалить",
+      lb_in: "Приблизить",
+      lb_reset: "Сброс",
+      lb_reset_aria: "Сбросить масштаб",
+      available_req: "Доступно по запросу",
+      specs_title: "Технические характеристики",
+      bc_home: "Главная",
+      request_quote: "Запросить коммерческое предложение",
     },
     en: {
       lang_btn: "RU",
@@ -235,6 +261,32 @@
       open: "Open",
       consult_task_h2: "We will select equipment for your task",
       consult_task_p: "Describe the parameters — we will prepare a technical and commercial quotation.",
+      search_aria: "Search the site",
+      search_ph: "Search the site…",
+      search_empty: "No results found",
+      search_hint: "Start typing a product name",
+      docs_tablist: "Document sections",
+      docs_tab_decl: "Declarations",
+      docs_tab_cert: "Certificates",
+      docs_tab_type: "Product type",
+      docs_tab_rus: "RusKhlorSert",
+      docs_tab_si: "MI type",
+      docs_panel_decl: "Declarations of conformity",
+      docs_panel_cert: "Certificates of conformity",
+      docs_panel_type: "Product type certificates",
+      docs_panel_rus: "RusKhlorSert certificates",
+      docs_panel_si: "Measuring instrument type approval certificates",
+      lb_view: "Document viewer",
+      lb_close: "Close",
+      lb_zoom: "Zoom",
+      lb_out: "Zoom out",
+      lb_in: "Zoom in",
+      lb_reset: "Reset",
+      lb_reset_aria: "Reset zoom",
+      available_req: "Available on request",
+      specs_title: "Technical specifications",
+      bc_home: "Home",
+      request_quote: "Request a quotation",
     },
   };
 
@@ -277,6 +329,75 @@
     el.textContent = val;
   }
 
+  function phraseMap() {
+    return window.AkmanPhrases || {};
+  }
+
+  function translateText(ru) {
+    if (!ru) return ru;
+    const map = phraseMap();
+    if (getLang() !== "en") return ru;
+    if (map[ru]) return map[ru];
+    // titles like "Name — ТР ТС …"
+    const dash = ru.indexOf(" — ");
+    if (dash > 0) {
+      const left = ru.slice(0, dash);
+      const right = ru.slice(dash);
+      if (map[left]) return map[left] + right;
+    }
+    return ru;
+  }
+
+  function applyPhrases() {
+    const lang = getLang();
+    const map = phraseMap();
+    if (!Object.keys(map).length) return;
+
+    const roots = document.querySelectorAll(
+      "main, #lightbox, .breadcrumb, .page-banner, .product-card, .product-hero, .specs, .consult-band, .doc-tabs, .doc-panel, .product-card-request"
+    );
+    const sel =
+      "h1, h2, h3, h4, p, strong, th, td, a, span.link-more, span.eyebrow, em, button.doc-tab, .doc-panel-title, .product-card-request span, label";
+
+    roots.forEach((root) => {
+      root.querySelectorAll(sel).forEach((el) => {
+        if (el.closest("[data-i18n]")) return;
+        if (el.closest(".site-header") || el.closest(".site-footer")) return;
+        if (el.closest("script") || el.closest("style")) return;
+        if (el.children.length > 0) return;
+        const text = (el.textContent || "").replace(/\s+/g, " ").trim();
+        if (!text || text.length > 220) return;
+        if (!el.dataset.ruText) el.dataset.ruText = text;
+        const ru = el.dataset.ruText;
+        el.textContent = lang === "en" ? translateText(ru) : ru;
+      });
+    });
+
+    document.querySelectorAll("[data-title]").forEach((el) => {
+      if (!el.dataset.titleRu) el.dataset.titleRu = el.getAttribute("data-title") || "";
+      const ru = el.dataset.titleRu;
+      el.setAttribute("data-title", lang === "en" ? translateText(ru) : ru);
+    });
+
+    document.querySelectorAll("img[alt]").forEach((el) => {
+      if (el.closest(".site-header") || el.closest(".site-footer")) return;
+      const alt = el.getAttribute("alt") || "";
+      if (!alt) return;
+      if (!el.dataset.altRu) el.dataset.altRu = alt;
+      const ru = el.dataset.altRu;
+      el.setAttribute("alt", lang === "en" ? translateText(ru) : ru);
+    });
+
+    document.querySelectorAll("[aria-label]").forEach((el) => {
+      if (el.hasAttribute("data-i18n")) return;
+      const label = el.getAttribute("aria-label") || "";
+      if (!label || !/[А-Яа-яЁё]/.test(label)) return;
+      if (!el.dataset.ariaRu) el.dataset.ariaRu = label;
+      const ru = el.dataset.ariaRu;
+      el.setAttribute("aria-label", lang === "en" ? translateText(ru) : ru);
+    });
+  }
+
   function apply() {
     const lang = getLang();
     document.documentElement.lang = lang;
@@ -291,33 +412,7 @@
       btn.textContent = t("lang_btn");
       btn.setAttribute("aria-label", t("lang_aria"));
     });
-    // common floating UI phrases on product pages
-    const swaps = [
-      ["Запросить ТКП", t("cta_tkp")],
-      ["Request a quotation", t("cta_tkp")],
-      ["Подробнее", t("more_details")],
-      ["Details", t("more_details")],
-      ["Перейти", t("go")],
-      ["Open", t("go")],
-      ["Смотреть", t("view_doc")],
-      ["View", t("view_doc")],
-      ["Запросить", t("cta_request")],
-      ["Request", t("cta_request")],
-      ["Позвонить", t("cta_call")],
-      ["Call", t("cta_call")],
-      ["Консультация", t("consult")],
-      ["Consultation", t("consult")],
-    ];
-    document.querySelectorAll("a.btn, a.consult-link, .link-more, .eyebrow, em").forEach((el) => {
-      if (el.closest("[data-i18n]")) return;
-      const text = (el.textContent || "").trim();
-      for (const [from, to] of swaps) {
-        if (text === from) {
-          el.textContent = to;
-          break;
-        }
-      }
-    });
+    applyPhrases();
   }
 
   function toggle() {
