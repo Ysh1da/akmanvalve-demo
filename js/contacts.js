@@ -88,8 +88,15 @@
   if (productParam) {
     if (productInput) productInput.value = productParam;
     if (banner && label) {
-      label.textContent = productParam;
+      const setProductLabel = () => {
+        const phrases = window.AkmanPhrases || {};
+        const lang = window.AkmanI18n ? window.AkmanI18n.getLang() : "ru";
+        label.textContent =
+          lang === "en" && phrases[productParam] ? phrases[productParam] : productParam;
+      };
+      setProductLabel();
       banner.classList.remove("hidden");
+      window.addEventListener("akman:lang", setProductLabel);
     }
   }
 

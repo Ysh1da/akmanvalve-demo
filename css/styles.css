@@ -1957,7 +1957,18 @@ body.modal-open {
   .header-right { display: flex; align-items: center; gap: 0.45rem; }
   .header-right .lang-toggle { order: 0; }
   .header-right .header-search { order: -1; }
-  .header-right .search-panel { right: auto; left: 0; }
+  .header-right .search-panel {
+    position: fixed;
+    top: calc(var(--header-h) + 0.4rem);
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+  }
+  .logo img {
+    max-width: min(46vw, 150px);
+    height: auto;
+    max-height: 34px;
+  }
   .nav {
     position: fixed;
     inset: var(--header-h) 0 auto 0;
@@ -2058,6 +2069,17 @@ body.modal-open {
     padding: 0.7rem 0.75rem;
     font-size: 0.9rem;
     word-break: break-word;
+  }
+  .specs {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .specs tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
   }
   .specs th { width: 38%; }
   .product-card-body .btn,

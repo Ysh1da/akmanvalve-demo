@@ -98,18 +98,17 @@
   }
 
   function loadExtraScripts() {
-    const files = ["js/phrases.js?v=23", "js/search.js?v=23"];
-    files.forEach((src) => {
-      const name = src.split("?")[0];
-      if ([...document.scripts].some((s) => (s.src || "").includes(name))) return;
-      const el = document.createElement("script");
-      el.src = prefix + src;
-      el.onload = () => {
-        if (name.endsWith("phrases.js") && window.AkmanI18n) window.AkmanI18n.apply();
-        if (name.endsWith("search.js") && window.AkmanSearch) window.AkmanSearch.init();
-      };
-      document.body.appendChild(el);
-    });
+    const src = prefix + "js/search.js?v=25";
+    if ([...document.scripts].some((s) => (s.src || "").includes("js/search.js"))) {
+      if (window.AkmanSearch) window.AkmanSearch.init();
+      return;
+    }
+    const el = document.createElement("script");
+    el.src = src;
+    el.onload = () => {
+      if (window.AkmanSearch) window.AkmanSearch.init();
+    };
+    document.body.appendChild(el);
   }
 
   function mount() {

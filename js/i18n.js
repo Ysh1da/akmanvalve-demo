@@ -92,7 +92,7 @@
       company_banner: "Технологическое оборудование для нефтегазохимической отрасли",
       company_p1: "ООО «АКМАН» поставляет технологическое оборудование для нефтегазохимической отрасли: средства измерений, запорно-регулирующую арматуру и внутренние контактные устройства колонного оборудования.",
       company_p2: "Мы работаем как официальный дистрибьютор зарубежных производителей на территории РФ и стран Таможенного союза. К поставкам сопровождаем разрешительную документацию — декларации, сертификаты и свидетельства об утверждении типа СИ.",
-      company_p3: "Офисы в Москве и Казани помогают вести проекты по всей стране: от подбора оборудования и запроса ТКП до сопровождения поставки.",
+      company_p3: "Офисы в Москве и Казани помогают вести проекты по всей стране: от подбора оборудования и запроса коммерческого предложения до сопровождения поставки.",
       products_h1: "Наши продукты",
       products_banner: "Основные направления поставляемого оборудования",
       products_si: "Средства измерений",
@@ -354,10 +354,10 @@
     if (!Object.keys(map).length) return;
 
     const roots = document.querySelectorAll(
-      "main, #lightbox, .breadcrumb, .page-banner, .product-card, .product-hero, .specs, .consult-band, .doc-tabs, .doc-panel, .product-card-request"
+      "main, #lightbox, .breadcrumb, .page-banner, .product-card, .product-hero, .specs, .consult-band, .doc-tabs, .doc-panel, .product-card-request, .card-actions, .on-request-note"
     );
     const sel =
-      "h1, h2, h3, h4, p, strong, th, td, a, span.link-more, span.eyebrow, em, button.doc-tab, .doc-panel-title, .product-card-request span, label";
+      "h1, h2, h3, h4, p, strong, th, td, a, span, em, button.doc-tab, .doc-panel-title, label";
 
     roots.forEach((root) => {
       root.querySelectorAll(sel).forEach((el) => {
@@ -396,6 +396,24 @@
       const ru = el.dataset.ariaRu;
       el.setAttribute("aria-label", lang === "en" ? translateText(ru) : ru);
     });
+
+    // document title: "Name — АКМАН"
+    const titleEl = document.querySelector("title");
+    if (titleEl) {
+      if (!titleEl.dataset.ruText) titleEl.dataset.ruText = titleEl.textContent || "";
+      const ruTitle = titleEl.dataset.ruText;
+      if (lang === "en") {
+        const parts = ruTitle.split(" — ");
+        if (parts.length >= 2) {
+          const left = translateText(parts[0]);
+          titleEl.textContent = left + " — AKMAN";
+        } else {
+          titleEl.textContent = translateText(ruTitle);
+        }
+      } else {
+        titleEl.textContent = ruTitle;
+      }
+    }
   }
 
   function apply() {
