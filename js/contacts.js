@@ -145,6 +145,76 @@
 
   if (!form) return;
 
+  const folderInput = document.getElementById("kp-folder");
+  const fileList = document.getElementById("kp-file-list");
+  let fileBag = [];
+
+  function syncFilesToInput() {
+    if (!filesInput || typeof DataTransfer === "undefined") return;
+    const dt = new DataTransfer();
+    fileBag.forEach((f) => dt.items.add(f));
+    filesInput.files = dt.files;
+    renderFileList();
+  }
+
+  function addFiles(list) {
+    const incoming = Array.from(list || []);
+    incoming.forEach((f) => {
+      const key = `${f.name}|${f.size}|${f.lastModified}`;
+      if (!fileBag.some((x) => `${x.name}|${x.size}|${x.lastModified}` === key)) {
+        fileBag.push(f);
+      }
+    });
+    syncFilesToInput();
+  }
+
+  function renderFileList() {
+    if (!fileList) return;
+    if (!fileBag.length) {
+      fileList.hidden = true;
+      fileList.innerHTML = "";
+      return;
+    }
+    fileList.hidden = false;
+    const totalMb = (fileBag.reduce((s, f) => s + (f.size || 0), 0) / (1024 * 1024)).toFixed(2);
+    fileList.innerHTML =
+      `<li class="file-list-head">${t("files_selected")} ${fileBag.length} · ${totalMb} MB` +
+      ` <button type="button" class="file-clear" id="kp-files-clear">${t("files_clear")}</button></li>` +
+      fileBag
+        .map(
+          (f, i) =>
+            `<li><span>${f.webkitRelativePath || f.name}</span>` +
+            `<button type="button" data-remove="${i}" aria-label="Remove">×</button></li>`
+        )
+        .join("");
+    const clearBtn = document.getElementById("kp-files-clear");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", () => {
+        fileBag = [];
+        syncFilesToInput();
+      });
+    }
+    fileList.querySelectorAll("[data-remove]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = Number(btn.getAttribute("data-remove"));
+        fileBag.splice(idx, 1);
+        syncFilesToInput();
+      });
+    });
+  }
+
+  if (filesInput) {
+    filesInput.addEventListener("change", () => {
+      addFiles(filesInput.files);
+    });
+  }
+  if (folderInput) {
+    folderInput.addEventListener("change", () => {
+      addFiles(folderInput.files);
+      folderInput.value = "";
+    });
+  }
+
   // FormSubmit AJAX drops file attachments — use classic multipart POST.
   form.addEventListener("submit", (e) => {
     if (location.protocol === "file:") {
@@ -153,7 +223,11 @@
       return;
     }
 
-    if (filesInput && (!filesInput.files || !filesInput.files.length)) {
+    if (!fileBag.length && filesInput && filesInput.files && filesInput.files.length) {
+      fileBag = Array.from(filesInput.files);
+    }
+
+    if (!fileBag.length) {
       e.preventDefault();
       openModal("error", t("error_title"), t("attach_needed"));
       if (status) {
@@ -163,8 +237,10 @@
       return;
     }
 
+    syncFilesToInput();
+
     let total = 0;
-    Array.from(filesInput.files).forEach((f) => {
+    fileBag.forEach((f) => {
       total += f.size || 0;
     });
     if (total > 10 * 1024 * 1024) {
