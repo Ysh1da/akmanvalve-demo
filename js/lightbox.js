@@ -11,6 +11,11 @@
   const zoomOutBtn = box.querySelector("[data-zoom='out']");
   const zoomResetBtn = box.querySelector("[data-zoom='reset']");
   const zoomLabel = box.querySelector(".lightbox-zoom-label");
+  const watermarks = document.createElement("div");
+  watermarks.className = "lightbox-watermarks";
+  watermarks.setAttribute("aria-hidden", "true");
+  watermarks.innerHTML = "<span>AKMAN · VIEW ONLY</span>".repeat(6);
+  stage.appendChild(watermarks);
 
   const MIN = 1;
   const MAX = 2.6;

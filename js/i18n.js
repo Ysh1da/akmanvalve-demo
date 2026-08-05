@@ -1,4 +1,4 @@
-/* i18n: default Russian, optional English */
+/* Russian interface text */
 (function () {
   const KEY = "akman_lang";
   const DEFAULT = "ru";
@@ -32,7 +32,7 @@
       consult: "Консультация",
       flagship: "Флагман",
       home_h1: "Оборудование для нефтегазохимической отрасли",
-      home_lead: "Средства измерений, трубопроводная арматура и внутренние контактные устройства — с разрешительной документацией.",
+      home_lead: "Средства измерений, трубопроводная арматура, внутренние контактные устройства и другое оборудование.",
       adv_1_t: "Поставки под ключ",
       adv_1_p: "Измерения, арматура и ВКУ с пакетом документов.",
       adv_2_t: "Разрешительные документы",
@@ -56,13 +56,16 @@
       contacts_h1: "Контакты",
       contacts_banner: "Офисы в Москве и Казани · запрос технико-коммерческого предложения (ТКП)",
       offices_eyebrow: "Офисы",
-      offices_h2: "Москва и Казань",
+      offices_h2: "Свяжитесь с нами",
       offices_p: "Свяжитесь с нами по телефону или e-mail.",
       moscow: "Москва",
       kazan: "Казань",
       tkp_eyebrow: "ТКП",
       tkp_h2: "Запрос технико-коммерческого предложения",
       tkp_p: "Заполните форму и приложите опросный лист или другие документы.",
+      inquiry_banner: "Заполните форму — подготовим решение под ваши требования.",
+      yandex_form_title: "Форма запроса ТКП",
+      yandex_form_hint: "Здесь будет размещена Яндекс Форма. Ссылку на форму можно указать в админ-панели.",
       interested: "Интересует:",
       label_name: "Имя *",
       label_company: "Компания",
@@ -177,7 +180,7 @@
       consult: "Consultation",
       flagship: "Flagship",
       home_h1: "Equipment for the oil, gas & petrochemical industry",
-      home_lead: "Measuring instruments, pipeline valves and tower internals — with conformity documents.",
+      home_lead: "Measuring instruments, pipeline valves, tower internals and other process equipment.",
       adv_1_t: "Turnkey supply",
       adv_1_p: "Instrumentation, valves and internals with a full document pack.",
       adv_2_t: "Conformity documents",
@@ -201,13 +204,16 @@
       contacts_h1: "Contacts",
       contacts_banner: "Offices in Moscow and Kazan · technical and commercial quotation (TCQ)",
       offices_eyebrow: "Offices",
-      offices_h2: "Moscow & Kazan",
+      offices_h2: "Contact us",
       offices_p: "Contact us by phone or e-mail.",
       moscow: "Moscow",
       kazan: "Kazan",
       tkp_eyebrow: "TCQ",
       tkp_h2: "Request a technical and commercial quotation",
       tkp_p: "Fill in the form and attach a questionnaire or other documents.",
+      inquiry_banner: "Complete the form — we will prepare a solution for your requirements.",
+      yandex_form_title: "TCQ request form",
+      yandex_form_hint: "A Yandex Form will be placed here. Its link can be set in the admin panel.",
       interested: "Interested in:",
       label_name: "Name *",
       label_company: "Company",
@@ -297,17 +303,14 @@
   };
 
   function getLang() {
-    const v = localStorage.getItem(KEY);
-    return v === "en" ? "en" : DEFAULT;
+    return DEFAULT;
   }
 
-  function setLang(lang) {
-    const next = lang === "en" ? "en" : DEFAULT;
-    localStorage.setItem(KEY, next);
-    document.documentElement.lang = next;
+  function setLang() {
+    localStorage.removeItem(KEY);
+    document.documentElement.lang = DEFAULT;
     apply();
-    window.dispatchEvent(new CustomEvent("akman:lang", { detail: { lang: next } }));
-    return next;
+    return DEFAULT;
   }
 
   function t(key) {
@@ -439,11 +442,7 @@
     applyPhrases();
   }
 
-  function toggle() {
-    setLang(getLang() === "en" ? "ru" : "en");
-  }
-
-  window.AkmanI18n = { getLang, setLang, toggle, t, apply, DICT };
+  window.AkmanI18n = { getLang, setLang, t, apply, DICT };
 
   document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.lang = getLang();

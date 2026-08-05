@@ -28,7 +28,6 @@
             <div class="search-results"></div>
           </div>
         </div>
-        <button type="button" class="lang-toggle" aria-label="${t("lang_aria")}">${t("lang_btn")}</button>
         <a class="header-phone-mobile" href="tel:+74957903250">+7 495 790-32-50</a>
         <button class="burger" type="button" data-i18n="nav_menu" data-i18n-attr="aria-label" aria-label="${t("nav_menu")}" id="burger">
           <span></span><span></span><span></span>
@@ -57,7 +56,6 @@
             <div class="search-results"></div>
           </div>
         </div>
-        <button type="button" class="lang-toggle" aria-label="${t("lang_aria")}">${t("lang_btn")}</button>
         <a href="tel:+74957903250">+7 495 790-32-50</a>
       </div>
     </div>
@@ -91,7 +89,6 @@
       </div>
       <div class="footer-bottom">
         <span data-i18n="footer_copy">${t("footer_copy")}</span>
-        <span>mail@akmanvalve.ru</span>
       </div>
     </div>
   </footer>`;
@@ -116,12 +113,6 @@
     const footerEl = document.getElementById("site-footer");
     if (headerEl) headerEl.outerHTML = buildHeader();
     if (footerEl) footerEl.outerHTML = buildFooter();
-
-    document.querySelectorAll(".lang-toggle").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        if (window.AkmanI18n) window.AkmanI18n.toggle();
-      });
-    });
 
     const burger = document.getElementById("burger");
     const nav = document.getElementById("nav");

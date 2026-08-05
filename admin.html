@@ -1,105 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Админ — АКМАН</title>
-  <meta name="description" content="Управление каталогом ООО АКМАН">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=26">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Локальная админка — АКМАН</title>
+  <link rel="stylesheet" href="css/styles.css?v=27">
+  <link rel="icon" type="image/png" href="assets/images/logo-akman.png">
 </head>
 <body data-active="" data-depth="0">
   <div id="site-header"></div>
   <main>
-    <section class="page-banner">
-      <div class="container">
-        <h1>Управление каталогом</h1>
-        <p>Разделы, подкаталоги и позиции. Редактирование и удаление.</p>
+    <section class="page-banner"><div class="container">
+      <h1>Локальная админка</h1>
+      <p>Редактирование файлов сайта на вашем компьютере</p>
+    </div></section>
+    <section class="section"><div class="container">
+      <div class="local-admin-intro">
+        <h2>Как пользоваться</h2>
+        <p>Откройте эту страницу через Chrome или Edge, нажмите «Выбрать папку сайта» и укажите корневую папку проекта. После сохранения изменения сразу записываются в HTML-файлы и папку <code>assets/catalog</code>.</p>
+        <button class="btn btn-blue" id="choose-folder" type="button">Выбрать папку сайта</button>
+        <p id="admin-status" class="form-status" role="status">Папка сайта не выбрана.</p>
       </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div id="admin-login" class="admin-wrap">
-          <h2>Вход</h2>
-          <p>Введите пароль администратора</p>
-          <label for="admin-pass">Пароль</label>
-          <input type="password" id="admin-pass" autocomplete="current-password">
-          <div class="admin-actions">
-            <button type="button" class="btn btn-blue" id="admin-login-btn">Войти</button>
-          </div>
-          <div id="admin-login-msg" class="admin-msg hidden"></div>
-        </div>
-
-        <div id="admin-panel" class="admin-wrap admin-panel-wide hidden">
-          <div class="admin-toolbar">
-            <button type="button" class="btn btn-outline" style="color:var(--blue-800);border-color:var(--blue-800)" id="export-btn">Скачать JSON</button>
-            <button type="button" class="btn btn-outline" style="color:var(--blue-800);border-color:var(--blue-800)" id="import-btn">Импорт JSON</button>
-            <input type="file" id="import-file" accept="application/json" class="hidden">
-            <button type="button" class="btn btn-outline" style="color:#8a3030;border-color:#8a3030" id="logout-btn">Выйти</button>
-          </div>
-          <p class="admin-note">Изменения видны в этом браузере сразу. Чтобы на сайте у всех — скачайте JSON и замените <code>assets/catalog/catalog.json</code>.</p>
-          <div id="admin-msg" class="admin-msg hidden"></div>
-
-          <div class="admin-grid">
-            <div class="admin-tree-card">
-              <h2>Каталог</h2>
-              <div id="admin-tree" class="admin-tree"></div>
+      <div id="local-admin" class="local-admin hidden">
+        <aside class="local-admin-list">
+          <div class="local-admin-list-head"><h2>Страницы товаров</h2><button class="btn btn-outline btn-xs" id="new-product" type="button">Добавить товар</button></div>
+          <input id="product-filter" type="search" placeholder="Поиск товара">
+          <div id="product-list"></div>
+        </aside>
+        <section class="local-admin-editor">
+          <h2 id="editor-title">Выберите товар</h2>
+          <form id="product-form">
+            <input id="p-file" type="hidden">
+            <label for="p-title">Название товара *</label>
+            <input id="p-title" required>
+            <label for="p-subtitle">Краткое описание</label>
+            <textarea id="p-subtitle" rows="2"></textarea>
+            <label for="p-image">Основное изображение</label>
+            <input id="p-image" type="file" accept="image/*">
+            <p class="form-hint">При выборе файла изображение будет скопировано в <code>assets/images</code>.</p>
+            <label for="p-pdf">PDF-каталог товара</label>
+            <input id="p-pdf" type="file" accept="application/pdf,.pdf">
+            <p id="pdf-state" class="form-hint">PDF-каталог не добавлен.</p>
+            <label for="p-specs">Характеристики (одна строка: название | значение)</label>
+            <textarea id="p-specs" rows="9" placeholder="Диаметр, мм | 15 ~ 150"></textarea>
+            <div class="admin-actions">
+              <button class="btn btn-blue" type="submit">Сохранить в файлы сайта</button>
+              <button class="btn btn-outline" id="delete-product" type="button">Удалить страницу</button>
             </div>
-
-            <div class="admin-forms">
-              <div class="admin-form-card">
-                <h2 id="form-heading">Добавить / изменить</h2>
-                <form id="entry-form">
-                  <input type="hidden" id="e-id">
-
-                  <label for="e-kind">Тип *</label>
-                  <select id="e-kind" required>
-                    <option value="section">Новый раздел (верхний уровень)</option>
-                    <option value="folder">Подкаталог (как «Клапаны регулирующие»)</option>
-                    <option value="product">Позиция / товар</option>
-                  </select>
-
-                  <label for="e-parent">Родитель</label>
-                  <select id="e-parent"></select>
-
-                  <label for="e-title">Название *</label>
-                  <input id="e-title" required>
-
-                  <label for="e-subtitle">Краткое описание</label>
-                  <textarea id="e-subtitle" rows="2"></textarea>
-
-                  <div id="specs-wrap">
-                    <label for="e-specs">Характеристики (строка: Название | Значение)</label>
-                    <textarea id="e-specs" rows="4" placeholder="Диаметр, мм | 15 ~ 150"></textarea>
-                  </div>
-
-                  <label for="e-image">Изображение (файл)</label>
-                  <input type="file" id="e-image" accept="image/*">
-
-                  <label for="e-image-url">или путь / URL</label>
-                  <input id="e-image-url" placeholder="assets/images/...">
-
-                  <div class="admin-actions">
-                    <button type="submit" class="btn btn-blue" id="save-btn">Сохранить</button>
-                    <button type="button" class="btn btn-outline" style="color:var(--blue-800);border-color:var(--blue-800)" id="reset-btn">Очистить форму</button>
-                    <button type="button" class="btn btn-outline hidden" style="color:#8a3030;border-color:#8a3030" id="delete-btn">Удалить</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+          </form>
+        </section>
       </div>
-    </section>
+    </div></section>
   </main>
   <div id="site-footer"></div>
-  <script src="js/phrases.js?v=26"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/main.js?v=26"></script>
-  <script src="js/catalog.js"></script>
-  <script src="js/admin.js"></script>
+  <script src="js/main.js?v=27"></script>
+  <script src="js/local-admin.js?v=1"></script>
 </body>
 </html>

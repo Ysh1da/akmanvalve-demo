@@ -8,7 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=26">
+  <link rel="stylesheet" href="css/styles.css?v=27">
+  <link rel="icon" type="image/png" href="assets/images/logo-akman.png">
 </head>
 <body data-active="contacts" data-depth="0">
   <div id="site-header"></div>
@@ -24,101 +25,23 @@
       <div class="container">
         <div class="section-head">
           <span class="eyebrow" data-i18n="offices_eyebrow">Офисы</span>
-          <h2 data-i18n="offices_h2">Москва и Казань</h2>
+          <h2 data-i18n="offices_h2">Свяжитесь с нами</h2>
           <p data-i18n="offices_p">Свяжитесь с нами по телефону или e-mail.</p>
+        </div>
+        <div class="contact-primary">
+          <a href="tel:+74957903250">+7 495 790-32-50</a>
+          <a href="mailto:mail@akmanvalve.ru">mail@akmanvalve.ru</a>
         </div>
         <div class="offices-grid">
           <article class="office">
             <h3 data-i18n="moscow">Москва</h3>
             <p class="office-addr">129347, г. Москва, ул. Холмогорская, д. 2, корп. 3</p>
-            <p class="office-links">
-              <a href="tel:+74957903250">+7 495 790-32-50</a>
-              <a href="mailto:mail@akmanvalve.ru">mail@akmanvalve.ru</a>
-            </p>
           </article>
           <article class="office">
             <h3 data-i18n="kazan">Казань</h3>
             <p class="office-addr">420064, г. Казань, ул. Баки Урманче, д. 5, пом. 8001, оф. 2</p>
-            <p class="office-links">
-              <a href="tel:+74957903250">+7 495 790-32-50</a>
-              <a href="mailto:mail@akmanvalve.ru">mail@akmanvalve.ru</a>
-            </p>
           </article>
         </div>
-      </div>
-    </section>
-
-    <section class="section about-band" id="inquiry">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow" data-i18n="tkp_eyebrow">ТКП</span>
-          <h2 data-i18n="tkp_h2">Запрос технико-коммерческого предложения</h2>
-          <p data-i18n="tkp_p">Заполните форму и приложите опросный лист или другие документы.</p>
-        </div>
-        <div id="inquiry-banner" class="inquiry-banner hidden">
-          <p><span data-i18n="interested">Интересует:</span> <strong id="inquiry-product"></strong></p>
-        </div>
-        <form id="kp-form" class="kp-form" action="https://formsubmit.co/yyyykira@gmail.com" method="POST" enctype="multipart/form-data">
-          <input type="hidden" name="_subject" value="Запрос ТКП — сайт АКМАН">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" id="kp-next" value="">
-          <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-          <div class="form-grid">
-            <div class="form-row">
-              <label for="kp-name" data-i18n="label_name">Имя *</label>
-              <input id="kp-name" name="name" type="text" required autocomplete="name" placeholder="Как к вам обращаться" data-i18n-placeholder="ph_name">
-            </div>
-            <div class="form-row">
-              <label for="kp-company" data-i18n="label_company">Компания</label>
-              <input id="kp-company" name="company" type="text" autocomplete="organization" placeholder="Название организации" data-i18n-placeholder="ph_company">
-            </div>
-            <div class="form-row">
-              <label for="kp-phone" data-i18n="label_phone">Телефон *</label>
-              <input id="kp-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+7 …" data-i18n-placeholder="ph_phone">
-            </div>
-            <div class="form-row">
-              <label for="kp-email" data-i18n="label_email">E-mail *</label>
-              <input id="kp-email" name="email" type="email" required autocomplete="email" placeholder="mail@company.ru" data-i18n-placeholder="ph_email">
-            </div>
-            <div class="form-row form-span">
-              <label for="kp-category" data-i18n="label_category">Направление оборудования *</label>
-              <select id="kp-category" name="category" required>
-                <option value="" data-i18n="opt_choose">Выберите направление</option>
-                <option value="Средства измерений" data-i18n="opt_si">Средства измерений</option>
-                <option value="Арматура трубопроводная" data-i18n="opt_valves">Арматура трубопроводная</option>
-                <option value="ВКУ" data-i18n="opt_vku">Внутренние контактные устройства (ВКУ)</option>
-              </select>
-            </div>
-            <div class="form-row form-span">
-              <label for="kp-product" data-i18n="label_product">Интересующее оборудование</label>
-              <input id="kp-product" name="product" type="text" placeholder="Например: FLSTV FK60" data-i18n-placeholder="ph_product">
-            </div>
-            <div class="form-row form-span questionnaire-box">
-              <label data-i18n="label_sheet">Опросный лист</label>
-              <p class="form-hint" id="questionnaire-hint" data-i18n="sheet_hint">Выберите направление. Если есть свой опросный лист — приложите его ниже. Если нет — скачайте бланк (когда будет доступен) и заполните.</p>
-              <a id="questionnaire-download" class="btn btn-outline-dark hidden" href="#" download data-i18n="download_sheet">Скачать бланк опросного листа</a>
-            </div>
-            <div class="form-row form-span">
-              <label for="kp-files" data-i18n="label_files">Прикрепить документы *</label>
-              <div class="file-attach-row">
-                <input id="kp-files" name="attachment" type="file" multiple required accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip,.rar,.7z">
-                <label class="btn btn-outline-dark file-folder-btn" for="kp-folder">
-                  <span data-i18n="attach_folder">Добавить папку</span>
-                </label>
-                <input id="kp-folder" type="file" class="hp-field" webkitdirectory multiple tabindex="-1" aria-hidden="true">
-              </div>
-              <ul id="kp-file-list" class="file-list" hidden></ul>
-              <p class="form-hint" data-i18n="files_hint">Можно выбрать несколько файлов или целую папку (опросный лист, ТЗ, чертежи). Суммарно до 10 МБ.</p>
-            </div>
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-blue" data-i18n="send_tkp">Отправить запрос ТКП</button>
-            <a class="consult-link" href="tel:+74957903250">Позвонить</a>
-          </div>
-          <p id="kp-status" class="form-status hidden" role="status"></p>
-        </form>
       </div>
     </section>
 
@@ -158,10 +81,9 @@
     </section>
   </main>
   <div id="site-footer"></div>
-  <script src="js/phrases.js?v=26"></script>
+  <script src="js/phrases.js?v=27"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/main.js?v=26"></script>
+  <script src="js/main.js?v=27"></script>
   <script src="js/catalog.js"></script>
-  <script src="js/contacts.js?v=26"></script>
 </body>
 </html>

@@ -8,7 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=26">
+  <link rel="stylesheet" href="css/styles.css?v=27">
+  <link rel="icon" type="image/png" href="assets/images/logo-akman.png">
 </head>
 <body data-active="products" data-depth="0">
   <div id="site-header"></div>
@@ -26,9 +27,9 @@
     </section>
   </main>
   <div id="site-footer"></div>
-  <script src="js/phrases.js?v=26"></script>
+  <script src="js/phrases.js?v=27"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/main.js?v=26"></script>
+  <script src="js/main.js?v=27"></script>
   <script src="js/catalog.js"></script>
   <script>
     (async function () {
@@ -82,7 +83,7 @@
           <p>${escape(p.subtitle || "")}</p>
           ${specs ? `<table class="specs"><tbody>${specs}</tbody></table>` : ""}
           <div class="hero-actions" style="margin-top:1.5rem">
-            <a class="btn btn-blue" href="contacts.html?product=${encodeURIComponent(p.title)}#inquiry">Запросить ТКП</a>
+            <a class="btn btn-blue" href="inquiry.html?product=${encodeURIComponent(p.title)}">Запросить ТКП</a>
             <a class="btn btn-outline" style="color:var(--blue-800);border-color:var(--blue-800)" href="${parentHref}">К разделу</a>
           </div>
         </div>

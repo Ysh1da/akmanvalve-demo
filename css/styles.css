@@ -159,8 +159,8 @@ p { margin: 0 0 1em; color: var(--muted); }
   border: 1px solid rgba(5, 58, 88, 0.25);
   background: transparent;
   color: var(--blue-800);
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: var(--radius);
   display: grid;
   place-items: center;
@@ -895,6 +895,25 @@ a.is-disabled {
   margin-inline: auto;
 }
 
+.contact-primary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem 1.5rem;
+  margin: 0 auto 2.5rem;
+}
+
+.contact-primary a {
+  color: var(--blue-800);
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2.3vw, 1.4rem);
+  font-weight: 800;
+}
+
+.contact-primary a:hover {
+  color: var(--blue-600);
+}
+
 .office {
   padding: 0.25rem 2.25rem;
   border-left: 0;
@@ -1107,7 +1126,8 @@ body[data-active="contacts"] .form-status {
   padding-top: 1.2rem;
   font-size: 0.85rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   gap: 1rem;
   flex-wrap: wrap;
 }
@@ -1123,6 +1143,75 @@ body[data-active="contacts"] .form-status {
 
 .admin-panel-wide {
   max-width: 1100px;
+}
+
+.local-admin-intro {
+  max-width: 720px;
+  margin: 0 auto 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.local-admin {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.local-admin-list,
+.local-admin-editor {
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.local-admin-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.local-admin-list h2,
+.local-admin-editor h2 {
+  margin: 0;
+}
+
+.local-admin-list input {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+#product-list {
+  max-height: 34rem;
+  overflow: auto;
+}
+
+.local-admin-item {
+  display: block;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+}
+
+.local-admin-item:hover,
+.local-admin-item.active {
+  background: var(--blue-50);
+  color: var(--blue-800);
+}
+
+@media (max-width: 760px) {
+  .local-admin { grid-template-columns: 1fr; }
 }
 
 .admin-wrap label {
@@ -1476,6 +1565,14 @@ body[data-active="contacts"] .form-status {
   margin-top: 0.65rem;
 }
 
+.catalog-unavailable {
+  align-self: center;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
 .product-card-request .product-card-body {
   gap: 0.35rem;
 }
@@ -1528,6 +1625,26 @@ body[data-active="contacts"] .form-status {
   color: var(--ink);
 }
 
+.yandex-form-root {
+  min-height: 420px;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.yandex-form-frame {
+  display: block;
+  width: 100%;
+  min-height: 720px;
+  border: 0;
+}
+
+.yandex-form-placeholder {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+  text-align: center;
+}
+
 /* Specs */
 .specs-wrap {
   border: 1px solid var(--line);
@@ -1577,6 +1694,7 @@ body[data-active="contacts"] .form-status {
 
 .doc-thumb,
 .doc-sheet {
+  position: relative;
   width: 100%;
   aspect-ratio: 210 / 297;
   max-width: 148px;
@@ -1586,6 +1704,21 @@ body[data-active="contacts"] .form-status {
   border: 1px solid var(--line);
   box-shadow: 0 8px 22px rgba(5, 58, 88, 0.12);
   flex-shrink: 0;
+  pointer-events: none;
+}
+
+.doc-thumb::after,
+.doc-sheet::after {
+  content: "AKMAN";
+  position: absolute;
+  inset: 45% -15% auto;
+  transform: rotate(-28deg);
+  color: rgba(5, 58, 88, 0.18);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-align: center;
   pointer-events: none;
 }
 
@@ -2231,6 +2364,29 @@ body.modal-open {
   cursor: default;
 }
 
+.lightbox-watermarks {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lightbox-watermarks span {
+  transform: rotate(-28deg);
+  color: rgba(255, 255, 255, 0.32);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1rem, 3.8vw, 1.8rem);
+  letter-spacing: 0.13em;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
 .lightbox-stage.is-zoomed {
   cursor: grab;
 }
@@ -2272,7 +2428,7 @@ body.modal-open {
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.28);
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
   white-space: nowrap;
 }
 
