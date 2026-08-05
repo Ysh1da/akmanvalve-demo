@@ -499,16 +499,16 @@ a.is-disabled {
 .hero h1 {
   color: #fff;
   font-weight: 600;
-  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
-  margin-bottom: 0.85rem;
+  font-size: clamp(1.55rem, 3.1vw, 2.3rem);
+  margin-bottom: 1rem;
   max-width: 20ch;
 }
 
 .hero > .container > p,
 .hero-content > p {
   color: rgba(255, 255, 255, 0.88);
-  font-size: 1.08rem;
-  max-width: 34rem;
+  font-size: clamp(1.12rem, 1.5vw, 1.25rem);
+  max-width: 38rem;
 }
 
 .hero-actions {
