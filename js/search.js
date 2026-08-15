@@ -14,7 +14,7 @@
     { url: "products/flstv-fk62.html", title: { ru: "FLSTV FK62", en: "FLSTV FK62" }, type: { ru: "Продукты", en: "Products" }, keys: "fk62" },
     { url: "products/rotameters.html", title: { ru: "Ротаметры", en: "Rotameters" }, type: { ru: "Продукты", en: "Products" }, keys: "ротаметр rotameter" },
     { url: "products/level-gauges.html", title: { ru: "Уровнемеры", en: "Level gauges" }, type: { ru: "Продукты", en: "Products" }, keys: "уровень level radar" },
-    { url: "products/valves.html", title: { ru: "Арматура трубопроводная", en: "Pipeline valves" }, type: { ru: "Продукты", en: "Products" }, keys: "арматура valves" },
+    { url: "products/valves.html", title: { ru: "Запорно-регулирующая арматура", en: "Shut-off and control valves" }, type: { ru: "Продукты", en: "Products" }, keys: "арматура valves запорно-регулирующая запорная регулирующая" },
     { url: "products/control-valves.html", title: { ru: "Клапаны регулирующие", en: "Control valves" }, type: { ru: "Продукты", en: "Products" }, keys: "sv100 sv200 sv300 control" },
     { url: "products/cv-2way.html", title: { ru: "Клапаны регулирующие 2-х ходовые", en: "Two-way control valves" }, type: { ru: "Продукты", en: "Products" }, keys: "2-way двухходовые" },
     { url: "products/cv-3way.html", title: { ru: "Клапаны регулирующие 3-х ходовые", en: "Three-way control valves" }, type: { ru: "Продукты", en: "Products" }, keys: "3-way трехходовые" },
@@ -35,6 +35,18 @@
     { url: "products/packed-tower-internals.html", title: { ru: "Внутренние устройства башенные с насадкой", en: "Packed tower internals" }, type: { ru: "Продукты", en: "Products" }, keys: "packed" },
     { url: "products/separation-internals.html", title: { ru: "Внутренние устройства разделения", en: "Separation internals" }, type: { ru: "Продукты", en: "Products" }, keys: "separation сепаратор" },
     { url: "products/reactor-internals.html", title: { ru: "Внутренние устройства реактора", en: "Reactor internals" }, type: { ru: "Продукты", en: "Products" }, keys: "reactor реактор" },
+    { url: "documents.html", title: { ru: "Декларация FLSTV ТР ТС 020/2011", en: "FLSTV declaration TR CU 020/2011" }, type: { ru: "Документы", en: "Documents" }, keys: "декларация flstv тр тс 020 расходомер" },
+    { url: "documents.html", title: { ru: "Декларация клапаны SV100 SV200 SV300 ТР ТС 010/2011", en: "SV valves declaration TR CU 010/2011" }, type: { ru: "Документы", en: "Documents" }, keys: "декларация sv100 sv200 sv300 клапаны 010" },
+    { url: "documents.html", title: { ru: "Декларация клапаны SV ТР ТС 032/2013", en: "SV valves declaration TR CU 032/2013" }, type: { ru: "Документы", en: "Documents" }, keys: "декларация sv 032 клапаны" },
+    { url: "documents.html", title: { ru: "Декларация арматура промышленная ТР ТС 010/2011", en: "Industrial valves declaration TR CU 010/2011" }, type: { ru: "Документы", en: "Documents" }, keys: "декларация арматура 010" },
+    { url: "documents.html", title: { ru: "Декларация конденсатоотводчики ТР ТС 010/2011", en: "Steam traps declaration TR CU 010/2011" }, type: { ru: "Документы", en: "Documents" }, keys: "декларация конденсатоотводчики" },
+    { url: "documents.html", title: { ru: "Сертификат FLSTV ТР ТС 012/2011", en: "FLSTV certificate TR CU 012/2011" }, type: { ru: "Документы", en: "Documents" }, keys: "сертификат flstv 012 расходомер" },
+    { url: "documents.html", title: { ru: "Сертификат клапаны SV ТР ТС 032/2013", en: "SV valves certificate TR CU 032/2013" }, type: { ru: "Документы", en: "Documents" }, keys: "сертификат sv 032" },
+    { url: "documents.html", title: { ru: "Сертификат затворы дисковые задвижки ТР ТС 012/2011", en: "Butterfly and gate valves certificate" }, type: { ru: "Документы", en: "Documents" }, keys: "сертификат затворы задвижки" },
+    { url: "documents.html", title: { ru: "Сертификат регуляторы давления ТР ТС 012/2011", en: "Pressure regulators certificate" }, type: { ru: "Документы", en: "Documents" }, keys: "сертификат регуляторы давления" },
+    { url: "documents.html", title: { ru: "Сертификат на тип клапаны регулирующие", en: "Control valves type certificate" }, type: { ru: "Документы", en: "Documents" }, keys: "тип продукции клапаны регулирующие" },
+    { url: "documents.html", title: { ru: "РусХлорСерт клапаны регулирующие", en: "RusChlorSert control valves" }, type: { ru: "Документы", en: "Documents" }, keys: "русхлорсерт клапаны" },
+    { url: "documents.html", title: { ru: "Свидетельство типа СИ FLSTV", en: "FLSTV measuring instrument type approval" }, type: { ru: "Документы", en: "Documents" }, keys: "свидетельство тип си flstv утверждение" },
   ];
 
   const depth = Number(document.body.dataset.depth || 0);

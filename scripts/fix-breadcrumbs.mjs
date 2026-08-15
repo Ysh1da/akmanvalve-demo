@@ -41,7 +41,7 @@ const labels = {
   instruments: "Средства измерений",
   flowmeters: "Расходомеры",
   "vortex-flowmeters": "Вихревые",
-  valves: "Арматура",
+  valves: "Запорно-регулирующая арматура",
   "control-valves": "Клапаны регулирующие",
   internals: "ВКУ",
   "tower-packings": "Насадки",

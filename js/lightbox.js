@@ -1,10 +1,81 @@
-/* Lightbox for documents — view only + zoom/pan */
+/* Lightbox for documents — view only, canvas + watermarks */
 (function () {
+  function decodeDoc(value) {
+    if (!value) return "";
+    if (/^assets\//.test(value) || /^\.\.\//.test(value)) return value;
+    try {
+      return decodeURIComponent(escape(atob(value)));
+    } catch (_) {
+      return value;
+    }
+  }
+
+  function docSrc(el) {
+    return decodeDoc(el.getAttribute("data-doc") || el.getAttribute("data-lightbox") || "");
+  }
+
+  function paintCanvas(canvas, src, stamp) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.decoding = "async";
+      image.onload = () => {
+        const w = image.naturalWidth || 900;
+        const h = image.naturalHeight || 1270;
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, w, h);
+        if (stamp) {
+          ctx.save();
+          ctx.translate(w / 2, h / 2);
+          ctx.rotate(-0.48);
+          ctx.font = "700 " + Math.round(w * 0.09) + "px sans-serif";
+          ctx.fillStyle = "rgba(5, 58, 88, 0.16)";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          for (let y = -h; y <= h; y += Math.round(h * 0.22)) {
+            for (let x = -w; x <= w; x += Math.round(w * 0.42)) {
+              ctx.fillText("AKMAN", x, y);
+            }
+          }
+          ctx.restore();
+        }
+        resolve();
+      };
+      image.onerror = reject;
+      image.src = src;
+    });
+  }
+
+  document.querySelectorAll(".doc-card[data-lightbox], .doc-card[data-doc]").forEach((card) => {
+    const wrap = card.querySelector(".doc-thumb, .doc-sheet");
+    if (!wrap) return;
+    const src = docSrc(card);
+    wrap.querySelectorAll("img").forEach((img) => img.remove());
+    let canvas = wrap.querySelector("canvas");
+    if (!canvas) {
+      canvas = document.createElement("canvas");
+      canvas.setAttribute("aria-hidden", "true");
+      wrap.appendChild(canvas);
+    }
+    if (src) paintCanvas(canvas, src, true).catch(() => {});
+    wrap.addEventListener("contextmenu", (e) => e.preventDefault());
+  });
+
   const box = document.getElementById("lightbox");
   if (!box) return;
 
   const stage = box.querySelector(".lightbox-stage") || box;
-  const img = box.querySelector(".lightbox-img") || box.querySelector("img");
+  let img = box.querySelector(".lightbox-img") || box.querySelector("img");
+  if (img && img.tagName !== "CANVAS") {
+    const canvas = document.createElement("canvas");
+    canvas.className = img.className || "lightbox-img";
+    img.replaceWith(canvas);
+    img = canvas;
+  }
+  img.classList.add("lightbox-img");
+  img.setAttribute("aria-hidden", "true");
+
   const caption = box.querySelector(".lightbox-caption");
   const closeBtn = box.querySelector(".lightbox-close");
   const zoomInBtn = box.querySelector("[data-zoom='in']");
@@ -50,18 +121,17 @@
     scale = 1;
     tx = 0;
     ty = 0;
-    img.src = src;
-    img.alt = title || "Документ";
-    img.setAttribute("draggable", "false");
-    if (caption) caption.textContent = title || "";
     applyTransform();
+    paintCanvas(img, src, true).catch(() => {});
+    if (caption) caption.textContent = title || "";
     box.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   }
 
   function close() {
     box.classList.add("hidden");
-    img.src = "";
+    const ctx = img.getContext && img.getContext("2d");
+    if (ctx) ctx.clearRect(0, 0, img.width || 0, img.height || 0);
     scale = 1;
     tx = 0;
     ty = 0;
@@ -69,20 +139,20 @@
     document.body.style.overflow = "";
   }
 
-  document.querySelectorAll("[data-lightbox]").forEach((el) => {
+  document.querySelectorAll("[data-lightbox], [data-doc]").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
-      open(el.getAttribute("data-lightbox"), el.getAttribute("data-title") || "");
+      const src = docSrc(el);
+      if (!src) return;
+      open(src, el.getAttribute("data-title") || "");
     });
   });
 
   ["contextmenu", "dragstart"].forEach((evt) => {
     box.addEventListener(evt, (e) => e.preventDefault());
-  });
-  document.querySelectorAll(".doc-card img, .doc-sheet img").forEach((el) => {
-    el.setAttribute("draggable", "false");
-    el.addEventListener("contextmenu", (e) => e.preventDefault());
-    el.addEventListener("dragstart", (e) => e.preventDefault());
+    document.addEventListener(evt, (e) => {
+      if (e.target.closest(".doc-card, .lightbox")) e.preventDefault();
+    });
   });
 
   if (zoomInBtn) zoomInBtn.addEventListener("click", (e) => {

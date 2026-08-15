@@ -38,8 +38,8 @@
         <div class="nav-dropdown">
           ${link("products.html", "nav_products", "products")}
           <div class="nav-dropdown-menu">
-            <a href="${prefix}products/instruments.html" data-i18n="nav_instruments">${t("nav_instruments")}</a>
             <a href="${prefix}products/valves.html" data-i18n="nav_valves">${t("nav_valves")}</a>
+            <a href="${prefix}products/instruments.html" data-i18n="nav_instruments">${t("nav_instruments")}</a>
             <a href="${prefix}products/internals.html" data-i18n="nav_internals">${t("nav_internals")}</a>
           </div>
         </div>
@@ -95,7 +95,7 @@
   }
 
   function loadExtraScripts() {
-    const src = prefix + "js/search.js?v=25";
+    const src = prefix + "js/search.js?v=29";
     if ([...document.scripts].some((s) => (s.src || "").includes("js/search.js"))) {
       if (window.AkmanSearch) window.AkmanSearch.init();
       return;

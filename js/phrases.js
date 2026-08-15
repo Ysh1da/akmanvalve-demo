@@ -4,6 +4,7 @@ window.AkmanPhrases = {
   "Расходомеры": "Flowmeters",
   "Ротаметры": "Rotameters",
   "Уровнемеры": "Level gauges",
+  "Запорно-регулирующая арматура": "Shut-off and control valves",
   "Арматура трубопроводная": "Pipeline valves",
   "Арматура промышленная трубопроводная": "Industrial pipeline valves",
   "Арматура": "Valves",

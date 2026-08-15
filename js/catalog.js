@@ -6,20 +6,20 @@
 
   const SEED_SECTIONS = [
     {
+      id: "soacv",
+      title: "Запорно-регулирующая арматура",
+      subtitle: "Регулирующая и запорная арматура",
+      image: "assets/images/1071a158f6d3.png",
+      page: "products/valves.html",
+      builtin: true,
+      order: 1,
+    },
+    {
       id: "cami",
       title: "Средства измерений",
       subtitle: "Расходомеры, ротаметры и уровнемеры",
       image: "assets/images/b182b10a204b.png",
       page: "products/instruments.html",
-      builtin: true,
-      order: 1,
-    },
-    {
-      id: "soacv",
-      title: "Арматура трубопроводная",
-      subtitle: "Регулирующая и запорная арматура",
-      image: "assets/images/1071a158f6d3.png",
-      page: "products/valves.html",
       builtin: true,
       order: 2,
     },
@@ -56,9 +56,9 @@
 
   // back-compat aliases used earlier
   const CATEGORIES = {
-    cami: SEED_SECTIONS[0],
-    soacv: SEED_SECTIONS[1],
-    icp: SEED_SECTIONS[2],
+    cami: SEED_SECTIONS.find((s) => s.id === "cami"),
+    soacv: SEED_SECTIONS.find((s) => s.id === "soacv"),
+    icp: SEED_SECTIONS.find((s) => s.id === "icp"),
     other: { id: "other", title: "Дополнительное оборудование", page: "products.html", label: "Дополнительное оборудование" },
   };
   Object.keys(CATEGORIES).forEach((k) => {

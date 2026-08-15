@@ -108,12 +108,16 @@ p { margin: 0 0 1em; color: var(--muted); }
   align-items: center;
   flex-shrink: 0;
   z-index: 2;
+  overflow: hidden;
 }
 
 .logo img {
   height: 40px;
   width: auto;
   display: block;
+  /* прячем знак ® справа от логотипа */
+  clip-path: inset(0 11% 0 0);
+  margin-right: -11%;
 }
 
 .header-contacts {
@@ -898,17 +902,18 @@ a.is-disabled {
 
 .contact-primary {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.65rem 1.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
   margin: 0 auto 2.5rem;
 }
 
 .contact-primary a {
-  color: var(--blue-800);
-  font-family: var(--font-display);
-  font-size: clamp(1.05rem, 2.3vw, 1.4rem);
-  font-weight: 800;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.45;
 }
 
 .contact-primary a:hover {
@@ -1089,10 +1094,22 @@ body[data-active="contacts"] .form-status {
 }
 
 .footer-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 2rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-grid > div:first-child {
+  flex: 1 1 16rem;
+  max-width: 22rem;
+}
+
+.footer-grid > div:not(:first-child) {
+  flex: 0 0 auto;
+  min-width: 9.5rem;
 }
 
 .site-footer h4 {
@@ -1114,12 +1131,15 @@ body[data-active="contacts"] .form-status {
 
 .footer-brand {
   margin-bottom: 0.75rem;
+  overflow: hidden;
 }
 
 .footer-brand img {
   height: 36px;
   width: auto;
   display: block;
+  clip-path: inset(0 11% 0 0);
+  margin-right: -11%;
 }
 
 .footer-bottom {
@@ -1127,8 +1147,8 @@ body[data-active="contacts"] .form-status {
   padding-top: 1.2rem;
   font-size: 0.85rem;
   display: flex;
-  justify-content: center;
-  text-align: center;
+  justify-content: space-between;
+  text-align: left;
   gap: 1rem;
   flex-wrap: wrap;
 }
@@ -1511,6 +1531,8 @@ body[data-active="contacts"] .form-status {
   background: var(--white);
   color: var(--blue-900);
   border-color: var(--white);
+  width: auto;
+  padding: 0.65rem 1.05rem;
 }
 
 .consult-band .btn-primary:hover {
@@ -1724,7 +1746,9 @@ body[data-active="contacts"] .form-status {
 }
 
 .doc-thumb img,
-.doc-sheet img {
+.doc-sheet img,
+.doc-thumb canvas,
+.doc-sheet canvas {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -2147,7 +2171,8 @@ body.modal-open {
     width: 100%;
   }
   .consult-actions .btn {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
+    width: auto;
     text-align: center;
   }
   .maps-grid { grid-template-columns: 1fr; }
@@ -2499,15 +2524,19 @@ body.modal-open {
   opacity: 0.98;
 }
 
-/* Mobile grids (nav/header rules live above with other responsive blocks) */
 @media (max-width: 960px) {
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .about-split,
   .product-hero,
-  .footer-grid,
   .maps-grid,
   .home-cat,
   .home-feature { grid-template-columns: 1fr; }
+  .footer-grid {
+    flex-direction: column;
+  }
+  .footer-bottom {
+    justify-content: flex-start;
+  }
   .about-split img,
   .about-photo img { height: 280px; }
   .home-cat-body,
