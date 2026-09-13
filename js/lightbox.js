@@ -1,11 +1,12 @@
-/* Lightbox for documents — view only, canvas + watermarks */
+/* Lightbox for documents — view only, native <dialog> */
 (function () {
   function decodeDoc(value) {
     if (!value) return "";
     if (/^assets\//.test(value) || /^\.\.\//.test(value)) return value;
     try {
-      return decodeURIComponent(escape(atob(value)));
-    } catch (_) {
+      const bytes = Uint8Array.from(atob(value), (ch) => ch.charCodeAt(0));
+      return new TextDecoder().decode(bytes);
+    } catch {
       return value;
     }
   }
@@ -14,7 +15,7 @@
     return decodeDoc(el.getAttribute("data-doc") || el.getAttribute("data-lightbox") || "");
   }
 
-  function paintCanvas(canvas, src, stamp) {
+  function paintCanvas(canvas, src) {
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.decoding = "async";
@@ -25,21 +26,6 @@
         canvas.height = h;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(image, 0, 0, w, h);
-        if (stamp) {
-          ctx.save();
-          ctx.translate(w / 2, h / 2);
-          ctx.rotate(-0.48);
-          ctx.font = "700 " + Math.round(w * 0.09) + "px sans-serif";
-          ctx.fillStyle = "rgba(5, 58, 88, 0.16)";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          for (let y = -h; y <= h; y += Math.round(h * 0.22)) {
-            for (let x = -w; x <= w; x += Math.round(w * 0.42)) {
-              ctx.fillText("AKMAN", x, y);
-            }
-          }
-          ctx.restore();
-        }
         resolve();
       };
       image.onerror = reject;
@@ -58,7 +44,7 @@
       canvas.setAttribute("aria-hidden", "true");
       wrap.appendChild(canvas);
     }
-    if (src) paintCanvas(canvas, src, true).catch(() => {});
+    if (src) paintCanvas(canvas, src).catch(() => {});
     wrap.addEventListener("contextmenu", (e) => e.preventDefault());
   });
 
@@ -66,7 +52,7 @@
   if (!box) return;
 
   const stage = box.querySelector(".lightbox-stage") || box;
-  let img = box.querySelector(".lightbox-img") || box.querySelector("img");
+  let img = box.querySelector(".lightbox-img") || box.querySelector("canvas") || box.querySelector("img");
   if (img && img.tagName !== "CANVAS") {
     const canvas = document.createElement("canvas");
     canvas.className = img.className || "lightbox-img";
@@ -82,11 +68,6 @@
   const zoomOutBtn = box.querySelector("[data-zoom='out']");
   const zoomResetBtn = box.querySelector("[data-zoom='reset']");
   const zoomLabel = box.querySelector(".lightbox-zoom-label");
-  const watermarks = document.createElement("div");
-  watermarks.className = "lightbox-watermarks";
-  watermarks.setAttribute("aria-hidden", "true");
-  watermarks.innerHTML = "<span>AKMAN · VIEW ONLY</span>".repeat(6);
-  stage.appendChild(watermarks);
 
   const MIN = 1;
   const MAX = 2.6;
@@ -100,6 +81,10 @@
   let startY = 0;
   let originTx = 0;
   let originTy = 0;
+
+  function isOpen() {
+    return Boolean(box.open);
+  }
 
   function applyTransform() {
     img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
@@ -122,14 +107,14 @@
     tx = 0;
     ty = 0;
     applyTransform();
-    paintCanvas(img, src, true).catch(() => {});
+    paintCanvas(img, src).catch(() => {});
     if (caption) caption.textContent = title || "";
-    box.classList.remove("hidden");
+    if (!box.open && typeof box.showModal === "function") box.showModal();
     document.body.style.overflow = "hidden";
   }
 
   function close() {
-    box.classList.add("hidden");
+    if (box.open) box.close();
     const ctx = img.getContext && img.getContext("2d");
     if (ctx) ctx.clearRect(0, 0, img.width || 0, img.height || 0);
     scale = 1;
@@ -171,7 +156,7 @@
   stage.addEventListener(
     "wheel",
     (e) => {
-      if (box.classList.contains("hidden")) return;
+      if (!isOpen()) return;
       e.preventDefault();
       const dir = e.deltaY < 0 ? 1 : -1;
       setZoom(scale + dir * STEP);
@@ -204,7 +189,9 @@
     stage.classList.remove("is-dragging");
     try {
       stage.releasePointerCapture(e.pointerId);
-    } catch (_) {}
+    } catch {
+      /* already released */
+    }
   }
 
   stage.addEventListener("pointerup", endDrag);
@@ -214,9 +201,11 @@
   box.addEventListener("click", (e) => {
     if (e.target === box) close();
   });
+  box.addEventListener("close", () => {
+    document.body.style.overflow = "";
+  });
   document.addEventListener("keydown", (e) => {
-    if (box.classList.contains("hidden")) return;
-    if (e.key === "Escape") close();
+    if (!isOpen()) return;
     if (e.key === "+" || e.key === "=") setZoom(scale + STEP);
     if (e.key === "-" || e.key === "_") setZoom(scale - STEP);
     if (e.key === "0") setZoom(1);

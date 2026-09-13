@@ -30,6 +30,7 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  color-scheme: light;
 }
 
 body {
@@ -69,6 +70,7 @@ h1, h2, h3, h4 {
   line-height: 1.2;
   color: var(--blue-900);
   margin: 0 0 0.6em;
+  text-wrap: balance;
 }
 
 h1 { font-size: clamp(1.9rem, 3.5vw, 2.75rem); }
@@ -108,16 +110,12 @@ p { margin: 0 0 1em; color: var(--muted); }
   align-items: center;
   flex-shrink: 0;
   z-index: 2;
-  overflow: hidden;
 }
 
 .logo img {
   height: 40px;
   width: auto;
   display: block;
-  /* прячем знак ® справа от логотипа */
-  clip-path: inset(0 11% 0 0);
-  margin-right: -11%;
 }
 
 .header-contacts {
@@ -905,7 +903,10 @@ a.is-disabled {
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  margin: 0 auto 2.5rem;
+  max-width: 52rem;
+  margin: 2.25rem auto 0;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
 }
 
 .contact-primary a {
@@ -1131,15 +1132,12 @@ body[data-active="contacts"] .form-status {
 
 .footer-brand {
   margin-bottom: 0.75rem;
-  overflow: hidden;
 }
 
 .footer-brand img {
   height: 36px;
   width: auto;
   display: block;
-  clip-path: inset(0 11% 0 0);
-  margin-right: -11%;
 }
 
 .footer-bottom {
@@ -1730,21 +1728,6 @@ body[data-active="contacts"] .form-status {
   pointer-events: none;
 }
 
-.doc-thumb::after,
-.doc-sheet::after {
-  content: "AKMAN";
-  position: absolute;
-  inset: 45% -15% auto;
-  transform: rotate(-28deg);
-  color: rgba(5, 58, 88, 0.18);
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-align: center;
-  pointer-events: none;
-}
-
 .doc-thumb img,
 .doc-sheet img,
 .doc-thumb canvas,
@@ -2324,14 +2307,29 @@ body.modal-open {
 .lightbox {
   position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
   z-index: 1000;
-  background: rgba(3, 37, 56, 0.9);
+  background: rgba(3, 37, 56, 0.92);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 4.5rem 1.25rem 1.5rem;
   gap: 0.75rem;
+}
+
+.lightbox:not([open]) {
+  display: none;
+}
+
+.lightbox::backdrop {
+  background: rgba(3, 37, 56, 0.92);
 }
 
 .lightbox-toolbar {
@@ -2390,29 +2388,6 @@ body.modal-open {
   cursor: default;
 }
 
-.lightbox-watermarks {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  place-items: center;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.lightbox-watermarks span {
-  transform: rotate(-28deg);
-  color: rgba(255, 255, 255, 0.32);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(1rem, 3.8vw, 1.8rem);
-  letter-spacing: 0.13em;
-  white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
 .lightbox-stage.is-zoomed {
   cursor: grab;
 }
@@ -2443,19 +2418,10 @@ body.modal-open {
 }
 
 .lightbox-hint {
-  position: absolute;
-  left: 50%;
-  top: 52%;
-  transform: translate(-50%, -50%) rotate(-18deg);
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(0.85rem, 2.5vw, 1.15rem);
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.28);
-  pointer-events: none;
-  z-index: 3;
-  white-space: nowrap;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
+  text-align: center;
 }
 
 .lightbox-caption {
