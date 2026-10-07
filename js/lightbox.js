@@ -1,42 +1,34 @@
-/* Lightbox for documents — view only, native <dialog> */
+/* Certificates are view-only: blobs are decoded into a canvas, never offered as a file. */
 (function () {
-  function decodeDoc(value) {
-    if (!value) return "";
-    if (/^assets\//.test(value) || /^\.\.\//.test(value)) return value;
-    try {
-      const bytes = Uint8Array.from(atob(value), (ch) => ch.charCodeAt(0));
-      return new TextDecoder().decode(bytes);
-    } catch {
-      return value;
-    }
+  const depth = Number(document.body.dataset.depth || 0);
+  const prefix = "../".repeat(depth);
+  const vault = window.AkmanDocs || { key: "", files: {} };
+  const keyBytes = new TextEncoder().encode(vault.key || "");
+
+  function decode(raw) {
+    const out = new Uint8Array(raw);
+    if (!keyBytes.length) return out;
+    for (let i = 0; i < out.length; i++) out[i] ^= keyBytes[i % keyBytes.length];
+    return out;
   }
 
-  function docSrc(el) {
-    return decodeDoc(el.getAttribute("data-doc") || el.getAttribute("data-lightbox") || "");
+  async function paintProtected(canvas, id) {
+    const file = vault.files[String(id)];
+    if (!file) return;
+    const response = await fetch(prefix + "assets/docs/" + file);
+    if (!response.ok) throw new Error("doc");
+    const bytes = decode(new Uint8Array(await response.arrayBuffer()));
+    const type = bytes[0] === 0x89 ? "image/png" : "image/jpeg";
+    const bitmap = await createImageBitmap(new Blob([bytes], { type }));
+    canvas.width = bitmap.width;
+    canvas.height = bitmap.height;
+    canvas.getContext("2d").drawImage(bitmap, 0, 0);
+    bitmap.close();
   }
 
-  function paintCanvas(canvas, src) {
-    return new Promise((resolve, reject) => {
-      const image = new Image();
-      image.decoding = "async";
-      image.onload = () => {
-        const w = image.naturalWidth || 900;
-        const h = image.naturalHeight || 1270;
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(image, 0, 0, w, h);
-        resolve();
-      };
-      image.onerror = reject;
-      image.src = src;
-    });
-  }
-
-  document.querySelectorAll(".doc-card[data-lightbox], .doc-card[data-doc]").forEach((card) => {
+  document.querySelectorAll(".doc-card[data-doc-id]").forEach((card) => {
     const wrap = card.querySelector(".doc-thumb, .doc-sheet");
     if (!wrap) return;
-    const src = docSrc(card);
     wrap.querySelectorAll("img").forEach((img) => img.remove());
     let canvas = wrap.querySelector("canvas");
     if (!canvas) {
@@ -44,23 +36,16 @@
       canvas.setAttribute("aria-hidden", "true");
       wrap.appendChild(canvas);
     }
-    if (src) paintCanvas(canvas, src).catch(() => {});
-    wrap.addEventListener("contextmenu", (e) => e.preventDefault());
+    paintProtected(canvas, card.getAttribute("data-doc-id")).catch(() => {});
   });
 
   const box = document.getElementById("lightbox");
   if (!box) return;
 
   const stage = box.querySelector(".lightbox-stage") || box;
-  let img = box.querySelector(".lightbox-img") || box.querySelector("canvas") || box.querySelector("img");
-  if (img && img.tagName !== "CANVAS") {
-    const canvas = document.createElement("canvas");
-    canvas.className = img.className || "lightbox-img";
-    img.replaceWith(canvas);
-    img = canvas;
-  }
-  img.classList.add("lightbox-img");
-  img.setAttribute("aria-hidden", "true");
+  const shield = box.querySelector(".lightbox-shield");
+  let img = box.querySelector(".lightbox-img");
+  if (!img || img.tagName !== "CANVAS") return;
 
   const caption = box.querySelector(".lightbox-caption");
   const closeBtn = box.querySelector(".lightbox-close");
@@ -72,7 +57,6 @@
   const MIN = 1;
   const MAX = 2.6;
   const STEP = 0.2;
-
   let scale = 1;
   let tx = 0;
   let ty = 0;
@@ -102,12 +86,12 @@
     applyTransform();
   }
 
-  function open(src, title) {
+  function open(id, title) {
     scale = 1;
     tx = 0;
     ty = 0;
     applyTransform();
-    paintCanvas(img, src).catch(() => {});
+    paintProtected(img, id).catch(() => {});
     if (caption) caption.textContent = title || "";
     if (!box.open && typeof box.showModal === "function") box.showModal();
     document.body.style.overflow = "hidden";
@@ -115,7 +99,7 @@
 
   function close() {
     if (box.open) box.close();
-    const ctx = img.getContext && img.getContext("2d");
+    const ctx = img.getContext("2d");
     if (ctx) ctx.clearRect(0, 0, img.width || 0, img.height || 0);
     scale = 1;
     tx = 0;
@@ -124,59 +108,61 @@
     document.body.style.overflow = "";
   }
 
-  document.querySelectorAll("[data-lightbox], [data-doc]").forEach((el) => {
+  document.querySelectorAll("[data-doc-id]").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
-      const src = docSrc(el);
-      if (!src) return;
-      open(src, el.getAttribute("data-title") || "");
+      open(el.getAttribute("data-doc-id"), el.getAttribute("data-title") || "");
     });
   });
 
-  ["contextmenu", "dragstart"].forEach((evt) => {
-    box.addEventListener(evt, (e) => e.preventDefault());
-    document.addEventListener(evt, (e) => {
-      if (e.target.closest(".doc-card, .lightbox")) e.preventDefault();
+  document.addEventListener(
+    "contextmenu",
+    (e) => {
+      if (e.target.closest(".doc-card, .lightbox, .doc-thumb")) e.preventDefault();
+    },
+    true
+  );
+  document.addEventListener(
+    "dragstart",
+    (e) => {
+      if (e.target.closest(".doc-card, .lightbox, .doc-thumb")) e.preventDefault();
+    },
+    true
+  );
+
+  [zoomInBtn, zoomOutBtn, zoomResetBtn].forEach((btn, index) => {
+    if (!btn) return;
+    const delta = index === 0 ? -STEP : index === 1 ? STEP : null;
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      setZoom(delta === null ? 1 : scale + delta);
     });
   });
 
-  if (zoomInBtn) zoomInBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setZoom(scale + STEP);
-  });
-  if (zoomOutBtn) zoomOutBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setZoom(scale - STEP);
-  });
-  if (zoomResetBtn) zoomResetBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setZoom(1);
-  });
-
-  stage.addEventListener(
+  const pointerRoot = shield || stage;
+  pointerRoot.addEventListener(
     "wheel",
     (e) => {
       if (!isOpen()) return;
       e.preventDefault();
-      const dir = e.deltaY < 0 ? 1 : -1;
-      setZoom(scale + dir * STEP);
+      setZoom(scale + (e.deltaY < 0 ? STEP : -STEP));
     },
     { passive: false }
   );
 
-  stage.addEventListener("pointerdown", (e) => {
-    if (scale <= 1.01) return;
+  pointerRoot.addEventListener("pointerdown", (e) => {
+    if (!isOpen() || scale <= 1.01) return;
     if (e.target.closest("button")) return;
     dragging = true;
     startX = e.clientX;
     startY = e.clientY;
     originTx = tx;
     originTy = ty;
-    stage.setPointerCapture(e.pointerId);
+    pointerRoot.setPointerCapture(e.pointerId);
     stage.classList.add("is-dragging");
   });
 
-  stage.addEventListener("pointermove", (e) => {
+  pointerRoot.addEventListener("pointermove", (e) => {
     if (!dragging) return;
     tx = originTx + (e.clientX - startX);
     ty = originTy + (e.clientY - startY);
@@ -188,14 +174,14 @@
     dragging = false;
     stage.classList.remove("is-dragging");
     try {
-      stage.releasePointerCapture(e.pointerId);
+      pointerRoot.releasePointerCapture(e.pointerId);
     } catch {
       /* already released */
     }
   }
 
-  stage.addEventListener("pointerup", endDrag);
-  stage.addEventListener("pointercancel", endDrag);
+  pointerRoot.addEventListener("pointerup", endDrag);
+  pointerRoot.addEventListener("pointercancel", endDrag);
 
   if (closeBtn) closeBtn.addEventListener("click", close);
   box.addEventListener("click", (e) => {

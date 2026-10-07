@@ -95,7 +95,7 @@
   }
 
   function loadExtraScripts() {
-    const src = prefix + "js/search.js?v=30";
+    const src = prefix + "js/search.js?v=31";
     if ([...document.scripts].some((s) => (s.src || "").includes("js/search.js"))) {
       if (window.AkmanSearch) window.AkmanSearch.init();
       return;

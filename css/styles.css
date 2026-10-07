@@ -1738,6 +1738,7 @@ body[data-active="contacts"] .form-status {
   object-position: top center;
   pointer-events: none;
   -webkit-user-drag: none;
+  user-select: none;
 }
 
 .doc-card-body {
@@ -2388,11 +2389,22 @@ body.modal-open {
   cursor: default;
 }
 
-.lightbox-stage.is-zoomed {
+.lightbox-shield {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: transparent;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.lightbox-stage.is-zoomed,
+.lightbox-stage.is-zoomed .lightbox-shield {
   cursor: grab;
 }
 
-.lightbox-stage.is-dragging {
+.lightbox-stage.is-dragging,
+.lightbox-stage.is-dragging .lightbox-shield {
   cursor: grabbing;
 }
 

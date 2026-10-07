@@ -1,0 +1,2 @@
+/* View-only document blobs. Not a downloadable certificate. */
+window.AkmanDocs = {"key": "akman-view-only-2026", "files": {"1": "01.bin", "2": "02.bin", "3": "03.bin", "4": "04.bin", "5": "05.bin", "6": "06.bin", "7": "07.bin", "8": "08.bin", "9": "09.bin", "10": "10.bin", "11": "11.bin", "12": "12.bin", "13": "13.bin", "14": "14.bin", "15": "15.bin", "16": "16.bin", "17": "17.bin", "18": "18.bin", "19": "19.bin", "20": "20.bin", "21": "21.bin", "22": "22.bin", "23": "23.bin"}};
