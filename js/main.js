@@ -16,7 +16,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="logo" href="${prefix}index.html" data-i18n="home_aria" data-i18n-attr="aria-label" aria-label="${t("home_aria")}">
-        <img src="${prefix}assets/images/logo-akman.png" alt="АКМАН" width="237" height="40" decoding="async">
+        <img src="${prefix}assets/images/logo-akman.png?v=32" alt="АКМАН" width="260" height="40" decoding="async">
       </a>
       <div class="header-right">
         <div class="header-search" id="site-search-mobile">
@@ -69,7 +69,7 @@
       <div class="footer-grid">
         <div>
           <div class="footer-brand">
-            <img src="${prefix}assets/images/logo-akman-on-dark.png" alt="AKMAN" width="215" height="36" decoding="async">
+            <img src="${prefix}assets/images/logo-akman-on-dark.png?v=32" alt="AKMAN" width="234" height="36" decoding="async">
           </div>
           <p data-i18n="footer_about">${t("footer_about")}</p>
         </div>
@@ -95,7 +95,7 @@
   }
 
   function loadExtraScripts() {
-    const src = prefix + "js/search.js?v=31";
+    const src = prefix + "js/search.js?v=32";
     if ([...document.scripts].some((s) => (s.src || "").includes("js/search.js"))) {
       if (window.AkmanSearch) window.AkmanSearch.init();
       return;
